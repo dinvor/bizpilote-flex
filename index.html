@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bizpilote Flex UI — Accueil</title>
+
+  <link rel="stylesheet" href="bizpilote-flex.min.css">
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bp-dark);
+      color: var(--bp-light);
+      padding: 32px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="nav-header flex j-between a-center p-8">
+    <div class="logo text-primary">Bizpilote Flex</div>
+
+    <nav class="nav-desktop flex gap-md">
+      <a href="index.html">Accueil</a>
+      <a href="components.html">Composants</a>
+      <a href="layouts.html">Layouts</a>
+      <a href="themes.html">Themes</a>
+    </nav>
+
+    <button class="hamburger btn-ghost sm-only" onclick="toggleMenu()">☰</button>
+  </header>
+
+  <nav id="nav-mobile" class="nav-mobile col gap-md p-8">
+    <a href="index.html">Accueil</a>
+    <a href="components.html">Composants</a>
+    <a href="layouts.html">Layouts</a>
+    <a href="themes.html">Themes</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="flex row md-col j-between a-center gap-lg m-8">
+    <div class="col gap-md">
+      <h2>Framework Flexbox Utility‑First</h2>
+      <p>Le Tailwind 100% Flexbox signé Bizpilote.</p>
+
+      <div class="flex gap-md">
+        <button class="btn btn-primary" onclick="setTheme('light')">Light</button>
+        <button class="btn btn-primary" onclick="setTheme('dark')">Dark</button>
+        <button class="btn btn-primary" onclick="setTheme('neon')">Neon</button>
+        <button class="btn btn-primary" onclick="setTheme('warm')">Warm</button>
+        <button class="btn btn-ghost" onclick="setTheme('custom')">Custom</button>
+      </div>
+    </div>
+
+    <div class="card basis-1-3 md-full">
+      <h3>Aperçu du framework</h3>
+      <p>Flexbox • Themes • Responsive universel</p>
+    </div>
+  </section>
+
+  <!-- GRID -->
+  <section class="flex wrap gap-md m-8">
+    <div class="card basis-1-3 sm-full">Bloc 1</div>
+    <div class="card basis-1-3 sm-full">Bloc 2</div>
+    <div class="card basis-1-3 sm-full">Bloc 3</div>
+  </section>
+
+  <footer class="center m-8">
+    <p>© 2026 Bizpilote Flex — Accueil</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

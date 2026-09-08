@@ -1,0 +1,33 @@
+<header class="nav-header flex j-between a-center p-8">
+  <div class="logo text-primary"><svg width="160" height="40" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="160" height="40" rx="8" fill="#020617"/>
+  <rect x="10" y="10" width="20" height="20" rx="4" fill="#22d3ee"/>
+  <rect x="22" y="10" width="20" height="20" rx="4" fill="#0ea5e9" opacity="0.7"/>
+  <text x="50" y="26" fill="#e5e7eb" font-size="16" font-family="system-ui, sans-serif">
+    Bizpilote Flex
+  </text>
+</svg>
+</div>
+  <link rel="stylesheet" href="bizpilote-flex.css">
+
+  <!-- Menu desktop -->
+  <nav class="nav-desktop flex gap-md">
+    <a href="index.html">Accueil</a>
+    <a href="components.html">Composants</a>
+    <a href="layouts.html">Layouts</a>
+    <a href="themes.html">Themes</a>
+  </nav>
+
+  <!-- Hamburger -->
+  <button class="hamburger btn-ghost sm-only" onclick="toggleMenu()">
+    ☰
+  </button>
+</header>
+
+<!-- Menu mobile/tablette -->
+<nav id="nav-mobile" class="nav-mobile col gap-md p-8">
+  <a href="index.html">Accueil</a>
+  <a href="components.html">Composants</a>
+  <a href="layouts.html">Layouts</a>
+  <a href="themes.html">Themes</a>
+</nav>

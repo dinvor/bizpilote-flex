@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bizpilote Flex UI — Layouts</title>
+
+  <link rel="stylesheet" href="bizpilote-flex.css">
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bp-dark);
+      color: var(--bp-light);
+      padding: 32px;
+    }
+    h2 { margin-bottom: 16px; }
+    section { margin-bottom: 48px; }
+    a { color: var(--bp-primary); text-decoration: none; }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="nav-header flex j-between a-center p-8">
+    <div class="logo text-primary">Bizpilote Flex</div>
+
+    <nav class="nav-desktop flex gap-md">
+      <a href="index.html">Accueil</a>
+      <a href="components.html">Composants</a>
+      <a href="layouts.html">Layouts</a>
+      <a href="themes.html">Themes</a>
+    </nav>
+
+    <button class="hamburger btn-ghost sm-only" onclick="toggleMenu()">☰</button>
+  </header>
+
+  <nav id="nav-mobile" class="nav-mobile col gap-md p-8">
+    <a href="index.html">Accueil</a>
+    <a href="components.html">Composants</a>
+    <a href="layouts.html">Layouts</a>
+    <a href="themes.html">Themes</a>
+  </nav>
+
+  <!-- HERO LAYOUT -->
+  <section>
+    <h2>Hero Layout</h2>
+    <div class="flex row md-col j-between a-center gap-lg card p-8">
+      <div class="col gap-md">
+        <h3>Hero Bizpilote Flex</h3>
+        <p>Un hero moderne 100% Flexbox.</p>
+        <div class="flex gap-md">
+          <button class="btn btn-primary">Commencer</button>
+          <button class="btn btn-ghost">Documentation</button>
+        </div>
+      </div>
+
+      <div class="card basis-1-3 md-full">
+        <p>Aperçu visuel</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIDEBAR LAYOUT -->
+  <section>
+    <h2>Sidebar Layout</h2>
+    <div class="flex row md-col gap-md">
+      <aside class="card basis-1-3 md-full">
+        <h3>Sidebar</h3>
+        <p>Menu latéral.</p>
+      </aside>
+
+      <main class="card grow">
+        <h3>Contenu principal</h3>
+        <p>Compatible responsive.</p>
+      </main>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section>
+    <h2>Dashboard</h2>
+    <div class="flex row md-col gap-md">
+      <aside class="card basis-1-3 md-full">
+        <h3>Menu</h3>
+      </aside>
+
+      <main class="flex col gap-md grow">
+        <div class="flex row md-col gap-md">
+          <div class="card grow">KPI 1</div>
+          <div class="card grow">KPI 2</div>
+          <div class="card grow">KPI 3</div>
+        </div>
+
+        <div class="flex row md-col gap-md">
+          <div class="card grow">Graphique</div>
+          <div class="card basis-1-3 md-full">Liste</div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- PRICING LAYOUT -->
+  <section>
+    <h2>Pricing Layout</h2>
+    <div class="flex wrap gap-md">
+      <div class="card basis-1-3 sm-full">
+        <h3>Starter</h3>
+        <p>Pour débuter.</p>
+        <button class="btn btn-primary">Choisir</button>
+      </div>
+
+      <div class="card basis-1-3 sm-full">
+        <h3>Pro</h3>
+        <p>Pour scaler.</p>
+        <button class="btn btn-primary">Choisir</button>
+      </div>
+
+      <div class="card basis-1-3 sm-full">
+        <h3>Enterprise</h3>
+        <p>Pour les équipes.</p>
+        <button class="btn btn-primary">Choisir</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANDING PAGE -->
+  <section>
+    <h2>Landing Page</h2>
+    <div class="flex col gap-lg card p-8">
+      <div class="flex row md-col j-between a-center gap-lg">
+        <div class="col gap-md">
+          <h3>Bizpilote Flex</h3>
+          <p>Le framework Flexbox utility-first.</p>
+          <button class="btn btn-primary">Commencer</button>
+        </div>
+
+        <div class="card basis-1-3 md-full">
+          <p>Illustration</p>
+        </div>
+      </div>
+
+      <div class="flex wrap gap-md">
+        <div class="card basis-1-3 sm-full">Feature 1</div>
+        <div class="card basis-1-3 sm-full">Feature 2</div>
+        <div class="card basis-1-3 sm-full">Feature 3</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="center m-8">
+    <p>© 2026 Bizpilote Flex — Layouts</p>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>

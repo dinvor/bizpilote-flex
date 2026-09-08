@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bizpilote Flex UI — Themes</title>
+
+  <link rel="stylesheet" href="bizpilote-flex.css">
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bp-dark);
+      color: var(--bp-light);
+      padding: 32px;
+    }
+    h2 { margin-bottom: 16px; }
+    section { margin-bottom: 48px; }
+    a { color: var(--bp-primary); text-decoration: none; }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="nav-header flex j-between a-center p-8">
+    <div class="logo text-primary">Bizpilote Flex</div>
+
+    <nav class="nav-desktop flex gap-md">
+      <a href="index.html">Accueil</a>
+      <a href="components.html">Composants</a>
+      <a href="layouts.html">Layouts</a>
+      <a href="themes.html">Themes</a>
+    </nav>
+
+    <button class="hamburger btn-ghost sm-only" onclick="toggleMenu()">☰</button>
+  </header>
+
+  <nav id="nav-mobile" class="nav-mobile col gap-md p-8">
+    <a href="index.html">Accueil</a>
+    <a href="components.html">Composants</a>
+    <a href="layouts.html">Layouts</a>
+    <a href="themes.html">Themes</a>
+  </nav>
+
+  <!-- THEME SWITCHER -->
+  <section>
+    <h2>Changer de thème</h2>
+    <div class="flex gap-md">
+      <button class="btn btn-primary" onclick="setTheme('light')">Light</button>
+      <button class="btn btn-primary" onclick="setTheme('dark')">Dark</button>
+      <button class="btn btn-primary" onclick="setTheme('neon')">Neon</button>
+      <button class="btn btn-primary" onclick="setTheme('warm')">Warm</button>
+      <button class="btn btn-ghost" onclick="setTheme('custom')">Custom</button>
+    </div>
+  </section>
+
+  <!-- PREVIEW -->
+  <section>
+    <h2>Aperçu du thème</h2>
+    <div class="card p-8">
+      <h3>Bizpilote Flex Theme Preview</h3>
+      <p>Les couleurs, ombres, arrondis et gaps changent automatiquement.</p>
+      <button class="btn btn-primary">Bouton</button>
+    </div>
+  </section>
+
+  <!-- GRID PREVIEW -->
+  <section>
+    <h2>Grille responsive</h2>
+    <div class="flex wrap gap-md">
+      <div class="card basis-1-3 sm-full">Bloc 1</div>
+      <div class="card basis-1-3 sm-full">Bloc 2</div>
+      <div class="card basis-1-3 sm-full">Bloc 3</div>
+    </div>
+  </section>
+
+  <footer class="center m-8">
+    <p>© 2026 Bizpilote Flex — Themes</p>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
