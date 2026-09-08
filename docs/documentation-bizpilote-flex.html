@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentation — Bizpilote Flex</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../src/bizpilote-flex.min.css">
+
+  <style>
+    body {
+      padding: 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1, h2, h3 {
+      margin-bottom: 16px;
+    }
+    pre {
+      background: #111;
+      padding: 16px;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #0ff;
+      margin-bottom: 24px;
+    }
+    .section {
+      margin-bottom: 64px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 class="text-4xl font-bold text-primary mb-8">📘 Documentation Bizpilote Flex</h1>
+
+  <p class="text-lg leading-relaxed mb-8">
+    Bizpilote Flex est un framework CSS Utility‑First 100% Flexbox, moderne, rapide, 
+    minimaliste et extensible. Il inclut un système de thèmes, des utilitaires flex, grid, 
+    spacing, typographie, couleurs, images, animations, composants et responsive universel.
+  </p>
+
+  <!-- INSTALLATION -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">📦 Installation</h2>
+    <p>Ajoutez simplement le fichier CSS :</p>
+
+    <pre>&lt;link rel="stylesheet" href="bizpilote-flex.min.css"&gt;</pre>
+  </div>
+
+  <!-- THEMES -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🎨 Thèmes</h2>
+    <p>Bizpilote Flex inclut 5 thèmes :</p>
+
+    <ul class="leading-relaxed">
+      <li>Dark</li>
+      <li>Light</li>
+      <li>Neon</li>
+      <li>Warm</li>
+      <li>Custom</li>
+    </ul>
+
+    <p class="mt-4">Changer de thème :</p>
+
+    <pre>&lt;html data-theme="neon"&gt;</pre>
+  </div>
+
+  <!-- FLEX -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🧩 Flex Utilities</h2>
+
+    <pre>
+.flex
+.row
+.col
+.wrap
+.nowrap
+.j-start / .j-center / .j-end / .j-between / .j-around
+.a-start / .a-center / .a-end
+.grow / .shrink
+.gap-sm / gap-md / gap-lg
+.basis-1-3 / basis-1-2 / basis-full
+    </pre>
+
+    <h3 class="text-xl font-bold">Exemple :</h3>
+
+    <pre>
+&lt;div class="flex row gap-md"&gt;
+  &lt;div class="basis-1-2"&gt;Bloc 1&lt;/div&gt;
+  &lt;div class="basis-1-2"&gt;Bloc 2&lt;/div&gt;
+&lt;/div&gt;
+    </pre>
+  </div>
+
+  <!-- GRID -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🔲 Grid Utilities</h2>
+
+    <pre>
+.grid
+.grid-cols-1
+.grid-cols-2
+.grid-cols-3
+.grid-cols-4
+.gap-2 / gap-4 / gap-8 / gap-16
+    </pre>
+  </div>
+
+  <!-- SPACING -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">📏 Spacing</h2>
+
+    <pre>
+.m-0 / m-2 / m-4 / m-8 / m-16
+.mt-4 / mb-4 / ml-4 / mr-4
+.mx-4 / my-4
+
+.p-0 / p-2 / p-4 / p-8 / p-16
+.pt-4 / pb-4 / pl-4 / pr-4
+.px-4 / py-4
+    </pre>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🔤 Typographie</h2>
+
+    <pre>
+.text-xs / text-sm / text-md / text-lg / text-xl / text-2xl / text-3xl / text-4xl
+.font-thin / font-light / font-normal / font-medium / font-semibold / font-bold / font-extrabold / font-black
+.leading-none / leading-tight / leading-normal / leading-relaxed / leading-loose
+.tracking-tight / tracking-normal / tracking-wide / tracking-wider / tracking-widest
+    </pre>
+  </div>
+
+  <!-- COLORS -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🎨 Couleurs</h2>
+
+    <pre>
+.text-white / text-black / text-gray / text-primary / text-light / text-dark
+.bg-white / bg-black / bg-gray / bg-primary / bg-light / bg-dark
+    </pre>
+  </div>
+
+  <!-- BORDERS -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🟦 Bordures</h2>
+
+    <pre>
+.rounded-none / rounded-sm / rounded-md / rounded-lg / rounded-xl / rounded-full
+.border / border-2 / border-4 / border-8
+    </pre>
+  </div>
+
+  <!-- SHADOWS -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🌑 Ombres</h2>
+
+    <pre>
+.shadow-sm / shadow-md / shadow-lg / shadow-xl / shadow-none
+    </pre>
+  </div>
+
+  <!-- DISPLAY -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">📐 Display</h2>
+
+    <pre>
+.block / .inline / .inline-block / .hidden
+    </pre>
+  </div>
+
+  <!-- OVERFLOW -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🌀 Overflow</h2>
+
+    <pre>
+.overflow-hidden / overflow-scroll / overflow-auto
+    </pre>
+  </div>
+
+  <!-- POSITION -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">📍 Position</h2>
+
+    <pre>
+.relative / absolute / fixed / sticky
+.z-0 / z-10 / z-20 / z-50 / z-100
+    </pre>
+  </div>
+
+  <!-- ANIMATIONS -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🎞️ Animations</h2>
+
+    <pre>
+.animate-fade
+.animate-slide-up
+.animate-bounce
+    </pre>
+  </div>
+
+  <!-- TRANSITIONS -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">⏱️ Transitions</h2>
+
+    <pre>
+.transition / transition-fast / transition-slow
+.ease-linear / ease-in / ease-out / ease-in-out
+    </pre>
+  </div>
+
+  <!-- IMAGES -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🖼️ Images</h2>
+
+    <pre>
+.img-responsive
+.img-cover / img-contain / img-center
+.img-rounded-sm / md / lg / xl / full
+.img-shadow-sm / md / lg / xl
+.img-blur / img-dark / img-light / img-gray / img-sepia / img-contrast
+.img-zoom
+.img-overlay / img-overlay-content
+.ratio-16-9 / ratio-4-3 / ratio-1-1
+.img-card / img-gallery
+    </pre>
+  </div>
+
+  <!-- COMPONENTS -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">🧱 Composants</h2>
+
+    <h3 class="text-xl font-bold">Hero</h3>
+    <pre>&lt;section class="hero bg-cover"&gt;...&lt;/section&gt;</pre>
+
+    <h3 class="text-xl font-bold">Card</h3>
+    <pre>&lt;div class="card"&gt;...&lt;/div&gt;</pre>
+
+    <h3 class="text-xl font-bold">Pricing</h3>
+    <pre>&lt;section class="pricing flex wrap"&gt;...&lt;/section&gt;</pre>
+
+    <h3 class="text-xl font-bold">Features</h3>
+    <pre>&lt;section class="features grid grid-cols-3"&gt;...&lt;/section&gt;</pre>
+
+    <h3 class="text-xl font-bold">Gallery</h3>
+    <pre>&lt;div class="grid grid-cols-3"&gt;...&lt;/div&gt;</pre>
+  </div>
+
+  <!-- RESPONSIVE -->
+  <div class="section">
+    <h2 class="text-3xl font-bold">📱 Responsive Universel</h2>
+
+    <pre>
+.xs-col / xs-full
+.sm-col / sm-full
+.md-col / md-full
+.lg-col
+.xl-gap / xl-p
+.xxl-gap / xxl-p
+    </pre>
+  </div>
+
+  <footer class="text-center text-sm text-gray mt-16">
+    Bizpilote Flex — Documentation Officielle · © Bizpilote
+  </footer>
+
+</body>
+</html>

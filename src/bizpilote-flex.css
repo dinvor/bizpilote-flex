@@ -1,0 +1,638 @@
+/* ============================================================
+   Bizpilote Flex — Framework Utility-First 100% Flexbox
+   Version: FULL MERGED (themes + responsive + utilities)
+   Auteur: Bizpilote (Koffi)
+   ============================================================ */
+
+/* ------------------------------
+   Reset minimal
+------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ------------------------------
+   Design Tokens par défaut
+------------------------------ */
+:root {
+  --bp-primary: #22d3ee;
+  --bp-dark: #020617;
+  --bp-light: #e5e7eb;
+  --bp-gray: #1f2937;
+
+  --bp-radius: 12px;
+  --bp-shadow: 0 20px 40px rgba(0,0,0,0.4);
+
+  --bp-gap-sm: 8px;
+  --bp-gap-md: 16px;
+  --bp-gap-lg: 32px;
+}
+
+/* ============================================================
+   THEMES BIZPILOTE FLEX
+=========================================================== */
+
+/* Dark */
+:root[data-theme="dark"] {
+  --bp-primary: #22d3ee;
+  --bp-dark: #020617;
+  --bp-light: #e5e7eb;
+  --bp-gray: #1f2937;
+
+  --bp-radius: 12px;
+  --bp-shadow: 0 20px 40px rgba(0,0,0,0.4);
+
+  --bp-gap-sm: 8px;
+  --bp-gap-md: 16px;
+  --bp-gap-lg: 32px;
+}
+
+/* Light */
+:root[data-theme="light"] {
+  --bp-primary: #0077ff;
+  --bp-dark: #ffffff;
+  --bp-light: #111111;
+  --bp-gray: #e5e7eb;
+
+  --bp-radius: 10px;
+  --bp-shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+  --bp-gap-sm: 8px;
+  --bp-gap-md: 16px;
+  --bp-gap-lg: 32px;
+}
+
+/* Neon */
+:root[data-theme="neon"] {
+  --bp-primary: #00f0ff;
+  --bp-dark: #000000;
+  --bp-light: #c8faff;
+  --bp-gray: #0a0a0a;
+
+  --bp-radius: 16px;
+  --bp-shadow: 0 0 25px rgba(0,240,255,0.5);
+
+  --bp-gap-sm: 10px;
+  --bp-gap-md: 20px;
+  --bp-gap-lg: 40px;
+}
+
+/* Warm */
+:root[data-theme="warm"] {
+  --bp-primary: #ff6b00;
+  --bp-dark: #2b1a1a;
+  --bp-light: #ffe8e8;
+  --bp-gray: #4a2e2e;
+
+  --bp-radius: 14px;
+  --bp-shadow: 0 12px 30px rgba(255,107,0,0.25);
+
+  --bp-gap-sm: 8px;
+  --bp-gap-md: 18px;
+  --bp-gap-lg: 36px;
+}
+
+/* Custom */
+:root[data-theme="custom"] {
+  --bp-primary: #ff00aa;
+  --bp-dark: #1a1a1a;
+  --bp-light: #fdfdfd;
+  --bp-gray: #333333;
+
+  --bp-radius: 20px;
+  --bp-shadow: 0 20px 50px rgba(255,0,170,0.3);
+
+  --bp-gap-sm: 8px;
+  --bp-gap-md: 16px;
+  --bp-gap-lg: 32px;
+}
+
+/* ============================================================
+   CORE FLEXBOX UTILITY-FIRST
+=========================================================== */
+
+/* Display */
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+
+/* Direction */
+.row { flex-direction: row; }
+.col { flex-direction: column; }
+
+/* Wrap */
+.wrap { flex-wrap: wrap; }
+.nowrap { flex-wrap: nowrap; }
+
+/* Justify-content */
+.j-start { justify-content: flex-start; }
+.j-center { justify-content: center; }
+.j-end { justify-content: flex-end; }
+.j-between { justify-content: space-between; }
+.j-around { justify-content: space-around; }
+
+/* Align-items */
+.a-start { align-items: flex-start; }
+.a-center { align-items: center; }
+.a-end { align-items: flex-end; }
+
+/* Gap */
+.gap-sm { gap: var(--bp-gap-sm); }
+.gap-md { gap: var(--bp-gap-md); }
+.gap-lg { gap: var(--bp-gap-lg); }
+
+/* Flex grow / shrink / basis */
+.grow { flex-grow: 1; }
+.shrink { flex-shrink: 1; }
+
+.basis-1-3 { flex-basis: calc(33.333% - var(--bp-gap-md)); }
+.basis-1-2 { flex-basis: calc(50% - var(--bp-gap-md)); }
+.basis-full { flex-basis: 100%; }
+
+/* ============================================================
+   GRID UTILITIES
+=========================================================== */
+
+.grid { display: grid; }
+
+.grid-cols-1 { grid-template-columns: repeat(1, 1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.gap-2  { gap: 8px; }
+.gap-4  { gap: 16px; }
+.gap-8  { gap: 32px; }
+.gap-16 { gap: 64px; }
+
+/* ============================================================
+   SPACING UTILITIES
+=========================================================== */
+
+/* MARGINS */
+.m-0  { margin: 0; }
+.m-2  { margin: 8px; }
+.m-4  { margin: 16px; }
+.m-8  { margin: 32px; }
+.m-16 { margin: 64px; }
+
+.mt-4 { margin-top: 16px; }
+.mb-4 { margin-bottom: 16px; }
+.ml-4 { margin-left: 16px; }
+.mr-4 { margin-right: 16px; }
+
+.mx-4 { margin-left: 16px; margin-right: 16px; }
+.my-4 { margin-top: 16px; margin-bottom: 16px; }
+
+/* PADDING */
+.p-0  { padding: 0; }
+.p-2  { padding: 8px; }
+.p-4  { padding: 16px; }
+.p-8  { padding: 32px; }
+.p-16 { padding: 64px; }
+
+.pt-4 { padding-top: 16px; }
+.pb-4 { padding-bottom: 16px; }
+.pl-4 { padding-left: 16px; }
+.pr-4 { padding-right: 16px; }
+
+.px-4 { padding-left: 16px; padding-right: 16px; }
+.py-4 { padding-top: 16px; padding-bottom: 16px; }
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+=========================================================== */
+
+/* Font sizes */
+.text-xs  { font-size: 12px; }
+.text-sm  { font-size: 14px; }
+.text-md  { font-size: 16px; }
+.text-lg  { font-size: 20px; }
+.text-xl  { font-size: 24px; }
+.text-2xl { font-size: 32px; }
+.text-3xl { font-size: 40px; }
+.text-4xl { font-size: 48px; }
+
+/* Font weights */
+.font-thin      { font-weight: 100; }
+.font-light     { font-weight: 300; }
+.font-normal    { font-weight: 400; }
+.font-medium    { font-weight: 500; }
+.font-semibold  { font-weight: 600; }
+.font-bold      { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+.font-black     { font-weight: 900; }
+
+/* Line height */
+.leading-none   { line-height: 1; }
+.leading-tight  { line-height: 1.2; }
+.leading-normal { line-height: 1.5; }
+.leading-relaxed{ line-height: 1.75; }
+.leading-loose  { line-height: 2; }
+
+/* Letter spacing */
+.tracking-tight   { letter-spacing: -0.5px; }
+.tracking-normal  { letter-spacing: 0; }
+.tracking-wide    { letter-spacing: 1px; }
+.tracking-wider   { letter-spacing: 2px; }
+.tracking-widest  { letter-spacing: 4px; }
+
+/* ============================================================
+   COLORS UTILITIES
+=========================================================== */
+
+/* Text colors */
+.text-white { color: #fff; }
+.text-black { color: #000; }
+.text-gray  { color: var(--bp-gray); }
+.text-primary { color: var(--bp-primary); }
+.text-light { color: var(--bp-light); }
+.text-dark  { color: var(--bp-dark); }
+
+/* Background colors */
+.bg-white { background: #fff; }
+.bg-black { background: #000; }
+.bg-gray  { background: var(--bp-gray); }
+.bg-primary { background: var(--bp-primary); }
+.bg-light { background: var(--bp-light); }
+.bg-dark  { background: var(--bp-dark); }
+
+/* ============================================================
+   DIMENSIONS UTILITIES
+=========================================================== */
+
+.w-full   { width: 100%; }
+.w-half   { width: 50%; }
+.w-third  { width: 33.333%; }
+.w-quarter{ width: 25%; }
+.w-auto   { width: auto; }
+
+.h-full   { height: 100%; }
+.h-screen { height: 100vh; }
+.h-auto   { height: auto; }
+
+/* ============================================================
+   BORDER UTILITIES
+=========================================================== */
+
+.rounded-none { border-radius: 0; }
+.rounded-sm   { border-radius: 4px; }
+.rounded-md   { border-radius: 8px; }
+.rounded-lg   { border-radius: 16px; }
+.rounded-xl   { border-radius: 24px; }
+.rounded-full { border-radius: 999px; }
+
+.border       { border-width: 1px; border-style: solid; }
+.border-2     { border-width: 2px; }
+.border-4     { border-width: 4px; }
+.border-8     { border-width: 8px; }
+
+/* ============================================================
+   SHADOW UTILITIES
+=========================================================== */
+
+.shadow-sm  { box-shadow: 0 2px 4px rgba(0,0,0,.1); }
+.shadow-md  { box-shadow: 0 4px 8px rgba(0,0,0,.15); }
+.shadow-lg  { box-shadow: 0 10px 20px rgba(0,0,0,.25); }
+.shadow-xl  { box-shadow: 0 20px 40px rgba(0,0,0,.35); }
+.shadow-none{ box-shadow: none; }
+
+/* ============================================================
+   OPACITY UTILITIES
+=========================================================== */
+
+.opacity-0   { opacity: 0; }
+.opacity-25  { opacity: .25; }
+.opacity-50  { opacity: .50; }
+.opacity-75  { opacity: .75; }
+.opacity-100 { opacity: 1; }
+
+/* ============================================================
+   DISPLAY UTILITIES
+=========================================================== */
+
+.block        { display: block; }
+.inline       { display: inline; }
+.inline-block { display: inline-block; }
+.hidden       { display: none; }
+
+/* ============================================================
+   OVERFLOW UTILITIES
+=========================================================== */
+
+.overflow-hidden { overflow: hidden; }
+.overflow-scroll { overflow: scroll; }
+.overflow-auto   { overflow: auto; }
+
+/* ============================================================
+   POSITION UTILITIES
+=========================================================== */
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed    { position: fixed; }
+.sticky   { position: sticky; }
+
+/* ============================================================
+   Z-INDEX UTILITIES
+=========================================================== */
+
+.z-0   { z-index: 0; }
+.z-10  { z-index: 10; }
+.z-20  { z-index: 20; }
+.z-50  { z-index: 50; }
+.z-100 { z-index: 100; }
+
+/* ============================================================
+   TRANSITIONS UTILITIES
+=========================================================== */
+
+.transition      { transition: all .3s ease; }
+.transition-fast { transition: all .15s ease; }
+.transition-slow { transition: all .6s ease; }
+
+.ease-linear     { transition-timing-function: linear; }
+.ease-in         { transition-timing-function: ease-in; }
+.ease-out        { transition-timing-function: ease-out; }
+.ease-in-out     { transition-timing-function: ease-in-out; }
+
+/* ============================================================
+   ANIMATIONS UTILITIES
+=========================================================== */
+
+.animate-fade {
+  animation: fade .6s ease forwards;
+}
+@keyframes fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp .6s ease forwards;
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+
+.animate-bounce {
+  animation: bounce 1s infinite;
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
+}
+
+/* ============================================================
+   RESPONSIVE UNIVERSEL
+=========================================================== */
+
+/* Mobile XS (<= 480px) */
+@media (max-width: 480px) {
+  .xs-col { flex-direction: column; }
+  .xs-full { flex-basis: 100%; }
+}
+
+/* Small (<= 768px) */
+@media (max-width: 768px) {
+  .sm-col { flex-direction: column; }
+  .sm-full { flex-basis: 100%; }
+}
+
+/* Medium (<= 1024px) */
+@media (max-width: 1024px) {
+  .md-col { flex-direction: column; }
+  .md-full { flex-basis: 100%; }
+}
+
+/* Large (<= 1440px) */
+@media (max-width: 1440px) {
+  .lg-col { flex-direction: column; }
+}
+
+/* Ultra-wide (>= 2000px) */
+@media (min-width: 2000px) {
+  .xl-gap { gap: 48px; }
+  .xl-p { padding: 48px; }
+}
+
+/* 4K / 8K (>= 3000px) */
+@media (min-width: 3000px) {
+  .xxl-gap { gap: 64px; }
+  .xxl-p { padding: 64px; }
+}
+
+/* ============================================================
+   NAVIGATION
+=========================================================== */
+
+.nav-header {
+  background: var(--bp-dark);
+  border-bottom: 1px solid var(--bp-gray);
+}
+
+.nav-desktop a {
+  color: var(--bp-light);
+  font-weight: 500;
+}
+
+.nav-mobile {
+  display: none;
+  background: var(--bp-dark);
+  border-bottom: 1px solid var(--bp-gray);
+}
+
+.nav-mobile a {
+  color: var(--bp-light);
+  font-weight: 600;
+  padding: 12px 0;
+}
+
+.sm-only {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .nav-desktop { display: none; }
+  .sm-only { display: block; }
+  #nav-mobile.show { display: flex; }
+}
+
+/* ============================================================
+   HERO SECTION
+=========================================================== */
+
+.hero {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px;
+}
+
+.bg-cover {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+}
+
+.hero-content {
+  position: relative;
+  max-width: 900px;
+  color: var(--bp-light);
+  padding: 16px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    padding: 64px 16px;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .hero-content p {
+    font-size: 18px;
+  }
+
+  .hero-content .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-content .flex {
+    flex-direction: column;
+  }
+}
+
+/* ============================================================
+   CARDS
+=========================================================== */
+
+.card {
+  padding: 20px;
+  background: var(--bp-dark);
+  border-radius: var(--bp-radius);
+  color: var(--bp-light);
+  border: 1px solid var(--bp-gray);
+  box-shadow: var(--bp-shadow);
+}
+
+.img-card {
+  width: 100%;
+  border-radius: var(--bp-radius);
+  margin-bottom: 16px;
+  object-fit: cover;
+}
+
+.img-card-pro {
+  padding: 24px;
+}
+
+/* ============================================================
+   PRICING SECTION
+=========================================================== */
+
+.pricing .card {
+  text-align: center;
+  padding: 32px;
+}
+
+/* ============================================================
+   FEATURES SECTION
+=========================================================== */
+
+.features .card {
+  text-align: center;
+  padding: 32px;
+}
+
+/* ============================================================
+   IMAGE UTILITIES
+=========================================================== */
+
+.img-responsive {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.img-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.img-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.img-center {
+  object-position: center;
+}
+
+.img-rounded-sm { border-radius: 4px; }
+.img-rounded-md { border-radius: 8px; }
+.img-rounded-lg { border-radius: 16px; }
+.img-rounded-xl { border-radius: 24px; }
+.img-rounded-full { border-radius: 999px; }
+
+.img-shadow-sm { box-shadow: 0 2px 4px rgba(0,0,0,.1); }
+.img-shadow-md { box-shadow: 0 4px 8px rgba(0,0,0,.15); }
+.img-shadow-lg { box-shadow: 0 10px 20px rgba(0,0,0,.25); }
+.img-shadow-xl { box-shadow: 0 20px 40px rgba(0,0,0,.35); }
+
+.img-blur { filter: blur(4px); }
+.img-dark { filter: brightness(0.5); }
+.img-light { filter: brightness(1.3); }
+.img-gray { filter: grayscale(100%); }
+.img-sepia { filter: sepia(100%); }
+.img-contrast { filter: contrast(1.4); }
+
+.img-zoom {
+  transition: transform .3s ease;
+}
+.img-zoom:hover {
+  transform: scale(1.05);
+}
+
+.img-overlay {
+  position: relative;
+}
+
+.img-overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: var(--bp-light);
+}
+
+.ratio-16-9 { aspect-ratio: 16 / 9; }
+.ratio-4-3 { aspect-ratio: 4 / 3; }
+.ratio-1-1 { aspect-ratio: 1 / 1; }
+
+.img-gallery {
+  border-radius: var(--bp-radius);
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+

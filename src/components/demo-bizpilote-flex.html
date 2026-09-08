@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Bizpilote Flex — Demo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Framework Bizpilote Flex -->
+  <!-- Utilise soit bizpilote-flex.css, soit bizpilote-flex.min.css -->
+  <link rel="stylesheet" href="src/bizpilote-flex.min.css">
+</head>
+<body data-theme="dark" class="bg-dark text-light">
+
+  <!-- NAVIGATION -->
+  <header class="nav-header px-4 py-2 flex j-between a-center">
+    <div class="flex a-center gap-md">
+      <span class="text-xl font-bold text-primary">Bizpilote Flex</span>
+    </div>
+
+    <!-- Desktop menu -->
+    <nav class="nav-desktop flex gap-md">
+      <a href="#hero" class="text-light">Accueil</a>
+      <a href="#features" class="text-light">Features</a>
+      <a href="#pricing" class="text-light">Pricing</a>
+      <a href="#gallery" class="text-light">Galerie</a>
+    </nav>
+
+    <!-- Mobile hamburger -->
+    <button class="sm-only btn btn-ghost px-4 py-2" onclick="toggleMobileNav()">
+      ☰
+    </button>
+  </header>
+
+  <!-- Mobile nav -->
+  <nav id="nav-mobile" class="nav-mobile col px-4 py-2 gap-sm">
+    <a href="#hero">Accueil</a>
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#gallery">Galerie</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="hero bg-cover" style="background-image:url('images/hero.jpg');">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content col a-center j-center text-center">
+      <h1 class="text-4xl font-bold tracking-wide mb-4">
+        Bizpilote Flex
+      </h1>
+
+      <p class="text-lg leading-relaxed mb-8">
+        Framework Utility‑First 100% Flexbox, rapide, moderne et personnalisable.
+      </p>
+
+      <div class="flex gap-md j-center">
+        <button class="btn btn-primary text-dark font-semibold px-4 py-2">
+          Commencer
+        </button>
+        <button class="btn btn-ghost text-light font-semibold px-4 py-2">
+          Documentation
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="features grid grid-cols-3 gap-8 p-8">
+    <div class="card p-8 text-center animate-slide-up">
+      <h3 class="text-xl font-bold mb-2">Ultra rapide</h3>
+      <p class="text-sm leading-normal">
+        CSS minifié, utilitaires ciblés, prêt pour la production.
+      </p>
+    </div>
+
+    <div class="card p-8 text-center animate-slide-up">
+      <h3 class="text-xl font-bold mb-2">Flexbox Only</h3>
+      <p class="text-sm leading-normal">
+        Layouts modernes, simples, puissants, 100% Flexbox.
+      </p>
+    </div>
+
+    <div class="card p-8 text-center animate-slide-up">
+      <h3 class="text-xl font-bold mb-2">Thèmes intégrés</h3>
+      <p class="text-sm leading-normal">
+        Dark, Light, Neon, Warm, Custom via data-theme.
+      </p>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="pricing flex wrap gap-lg j-center p-8">
+    <div class="card w-third p-8 text-center">
+      <h3 class="text-2xl font-bold mb-4">Starter</h3>
+      <p class="text-lg mb-4">10€/mois</p>
+      <p class="text-sm mb-4">Pour les petits projets et tests.</p>
+      <button class="btn btn-primary">Choisir</button>
+    </div>
+
+    <div class="card w-third p-8 text-center shadow-lg">
+      <h3 class="text-2xl font-bold mb-4">Pro</h3>
+      <p class="text-lg mb-4">29€/mois</p>
+      <p class="text-sm mb-4">Pour les freelances et agences.</p>
+      <button class="btn btn-primary">Choisir</button>
+    </div>
+
+    <div class="card w-third p-8 text-center">
+      <h3 class="text-2xl font-bold mb-4">Entreprise</h3>
+      <p class="text-lg mb-4">99€/mois</p>
+      <p class="text-sm mb-4">Pour les équipes et produits SaaS.</p>
+      <button class="btn btn-primary">Choisir</button>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="p-8">
+    <h2 class="text-3xl font-bold mb-4 text-center">Galerie</h2>
+
+    <div class="grid grid-cols-3 gap-4">
+      <img src="images/1.jpg" class="img-gallery img-zoom">
+      <img src="images/2.jpg" class="img-gallery img-zoom">
+      <img src="images/3.jpg" class="img-gallery img-zoom">
+    </div>
+  </section>
+
+  <!-- CARDS IMAGE PRO -->
+  <section class="p-8 flex wrap gap-lg j-center">
+    <div class="card img-card-pro w-third">
+      <img src="images/product.jpg" class="img-card">
+      <h3 class="text-xl font-semibold mt-4">Produit Premium</h3>
+      <p class="text-sm leading-normal mt-2">
+        Description du produit avec style Bizpilote Flex.
+      </p>
+      <button class="btn btn-primary mt-4">Acheter</button>
+    </div>
+
+    <div class="card img-card-pro w-third">
+      <img src="images/product2.jpg" class="img-card">
+      <h3 class="text-xl font-semibold mt-4">Service Pro</h3>
+      <p class="text-sm leading-normal mt-2">
+        Présentation d’un service avec card image.
+      </p>
+      <button class="btn btn-primary mt-4">Découvrir</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="px-8 py-4 text-center text-sm text-gray">
+    Bizpilote Flex — Framework Utility‑First 100% Flexbox · © Bizpilote
+  </footer>
+
+  <!-- JS minimal pour le menu mobile -->
+  <script>
+    function toggleMobileNav() {
+      const nav = document.getElementById('nav-mobile');
+      nav.classList.toggle('show');
+    }
+  </script>
+</body>
+</html>

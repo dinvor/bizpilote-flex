@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Bizpilote Flex — Générateur de composants</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="src/bizpilote-flex.min.css">
+
+  <style>
+    body {
+      background: var(--bp-dark);
+      color: var(--bp-light);
+      font-family: system-ui, sans-serif;
+      padding: 24px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .panel {
+      border: 1px solid var(--bp-gray);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      background: #020617;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: var(--bp-light);
+    }
+    select {
+      width: 100%;
+      padding: 6px 8px;
+      border-radius: 8px;
+      border: 1px solid var(--bp-gray);
+      background: #020617;
+      color: var(--bp-light);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    #classOutput, #componentCode {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid var(--bp-gray);
+      background: #020617;
+      color: #0ff;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+    }
+    .btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--bp-light);
+      background: rgba(255,255,255,0.05);
+      color: var(--bp-light);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .btn:hover {
+      background: var(--bp-primary);
+      color: var(--bp-dark);
+      transform: translateY(-1px);
+    }
+    pre {
+      background: #020617;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      color: #0ff;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1 class="text-3xl font-bold text-primary mb-4">Bizpilote Flex — Générateur de composants</h1>
+  <p class="text-md leading-relaxed mb-6">
+    Sélectionne tes classes, choisis un type de composant, et Bizpilote Flex génère automatiquement le composant complet.
+  </p>
+
+  <!-- CLASSES -->
+  <div class="panel">
+    <h2 class="text-xl font-bold mb-4">Classes Bizpilote Flex</h2>
+
+    <div class="grid-2">
+      <div>
+        <label>Display</label>
+        <select id="display">
+          <option value="">(aucun)</option>
+          <option value="flex">flex</option>
+          <option value="inline-flex">inline-flex</option>
+          <option value="block">block</option>
+        </select>
+
+        <label>Direction</label>
+        <select id="direction">
+          <option value="">(aucun)</option>
+          <option value="row">row</option>
+          <option value="col">col</option>
+        </select>
+
+        <label>Justify</label>
+        <select id="justify">
+          <option value="">(aucun)</option>
+          <option value="j-start">j-start</option>
+          <option value="j-center">j-center</option>
+          <option value="j-end">j-end</option>
+          <option value="j-between">j-between</option>
+        </select>
+
+        <label>Align</label>
+        <select id="align">
+          <option value="">(aucun)</option>
+          <option value="a-start">a-start</option>
+          <option value="a-center">a-center</option>
+          <option value="a-end">a-end</option>
+        </select>
+
+        <label>Gap</label>
+        <select id="gap">
+          <option value="">(aucun)</option>
+          <option value="gap-sm">gap-sm</option>
+          <option value="gap-md">gap-md</option>
+          <option value="gap-lg">gap-lg</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Text size</label>
+        <select id="textSize">
+          <option value="">(aucun)</option>
+          <option value="text-sm">text-sm</option>
+          <option value="text-md">text-md</option>
+          <option value="text-lg">text-lg</option>
+          <option value="text-xl">text-xl</option>
+        </select>
+
+        <label>Font weight</label>
+        <select id="fontWeight">
+          <option value="">(aucun)</option>
+          <option value="font-normal">font-normal</option>
+          <option value="font-medium">font-medium</option>
+          <option value="font-bold">font-bold</option>
+        </select>
+
+        <label>Text color</label>
+        <select id="textColor">
+          <option value="">(aucun)</option>
+          <option value="text-light">text-light</option>
+          <option value="text-primary">text-primary</option>
+        </select>
+
+        <label>Background</label>
+        <select id="bgColor">
+          <option value="">(aucun)</option>
+          <option value="bg-dark">bg-dark</option>
+          <option value="bg-gray">bg-gray</option>
+          <option value="bg-primary">bg-primary</option>
+        </select>
+
+        <label>Padding</label>
+        <select id="padding">
+          <option value="">(aucun)</option>
+          <option value="p-4">p-4</option>
+          <option value="p-8">p-8</option>
+        </select>
+      </div>
+    </div>
+
+    <input id="classOutput" readonly class="mt-4">
+  </div>
+
+  <!-- TYPE DE COMPOSANT -->
+  <div class="panel">
+    <h2 class="text-xl font-bold mb-4">Type de composant</h2>
+
+    <select id="componentType">
+      <option value="card">Card</option>
+      <option value="hero">Hero</option>
+      <option value="pricing">Pricing</option>
+      <option value="feature">Feature</option>
+      <option value="section">Section</option>
+      <option value="button">Button</option>
+      <option value="container">Container</option>
+    </select>
+
+    <button class="btn mt-4" onclick="generateComponent()">Générer composant complet</button>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="panel">
+    <h2 class="text-xl font-bold mb-4">Preview</h2>
+    <div id="previewTarget"></div>
+  </div>
+
+  <!-- CODE -->
+  <div class="panel">
+    <h2 class="text-xl font-bold mb-4">Code HTML généré</h2>
+    <pre id="componentCode"></pre>
+    <button class="btn mt-4" onclick="copyComponent()">Copier le composant</button>
+  </div>
+
+  <script>
+    const fields = [
+      "display","direction","justify","align","gap",
+      "textSize","fontWeight","textColor","bgColor","padding"
+    ];
+
+    fields.forEach(id => {
+      document.getElementById(id).addEventListener("change", updateClasses);
+    });
+
+    function updateClasses() {
+      const classes = [];
+
+      fields.forEach(id => {
+        const value = document.getElementById(id).value;
+        if (value) classes.push(value);
+      });
+
+      const classString = classes.join(" ");
+      document.getElementById("classOutput").value = classString;
+
+      document.getElementById("previewTarget").innerHTML = `
+<div class="${classString}">
+  <h3>Preview Bizpilote Flex</h3>
+  <p>Ce bloc utilise les classes générées.</p>
+</div>`;
+    }
+
+    function generateComponent() {
+      const type = document.getElementById("componentType").value;
+      const classes = document.getElementById("classOutput").value;
+
+      let html = "";
+
+      if (type === "card") {
+        html = `
+<div class="card ${classes}">
+  <h3 class="text-xl font-bold mb-2">Titre de la card</h3>
+  <p class="text-sm leading-normal mb-4">Texte de la card générée automatiquement.</p>
+  <button class="btn btn-primary">Action</button>
+</div>`;
+      }
+
+      if (type === "hero") {
+        html = `
+<section class="hero ${classes}">
+  <div class="hero-overlay"></div>
+  <div class="hero-content col a-center j-center text-center">
+    <h1 class="text-4xl font-bold mb-4">Titre Hero</h1>
+    <p class="text-lg mb-8">Hero généré automatiquement.</p>
+    <button class="btn btn-primary">Action</button>
+  </div>
+</section>`;
+      }
+
+      if (type === "pricing") {
+        html = `
+<div class="pricing ${classes}">
+  <div class="card p-8 text-center">
+    <h3 class="text-2xl font-bold mb-4">Starter</h3>
+    <p class="text-lg mb-4">10€/mois</p>
+    <button class="btn btn-primary">Choisir</button>
+  </div>
+</div>`;
+      }
+
+      if (type === "feature") {
+        html = `
+<div class="features ${classes}">
+  <div class="card p-8 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature</h3>
+    <p class="text-sm">Feature générée automatiquement.</p>
+  </div>
+</div>`;
+      }
+
+      if (type === "section") {
+        html = `
+<section class="${classes}">
+  <h2 class="text-3xl font-bold mb-4">Titre de section</h2>
+  <p class="text-md leading-normal">Section générée automatiquement.</p>
+</section>`;
+      }
+
+      if (type === "button") {
+        html = `
+<button class="btn ${classes}">Bouton généré</button>`;
+      }
+
+      if (type === "container") {
+        html = `
+<div class="${classes}">
+  <p>Container généré automatiquement.</p>
+</div>`;
+      }
+
+      document.getElementById("componentCode").textContent = html;
+      document.getElementById("previewTarget").innerHTML = html;
+    }
+
+    function copyComponent() {
+      const code = document.getElementById("componentCode").textContent;
+      navigator.clipboard.writeText(code);
+    }
+
+    updateClasses();
+  </script>
+
+</body>
+</html>
