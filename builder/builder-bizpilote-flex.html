@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Bizpilote Flex — Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="src/bizpilote-flex.min.css">
+
+  <style>
+    body {
+      background: var(--bp-dark);
+      color: var(--bp-light);
+      font-family: system-ui, sans-serif;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      height: 100vh;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid #1f2937;
+      background: #020617;
+    }
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--bp-light);
+      background: rgba(255,255,255,0.05);
+      color: var(--bp-light);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .btn:hover {
+      background: var(--bp-primary);
+      color: var(--bp-dark);
+      transform: translateY(-1px);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr 320px;
+      gap: 8px;
+      padding: 8px;
+    }
+    .panel {
+      border: 1px solid #1f2937;
+      border-radius: 8px;
+      padding: 8px;
+      background: #020617;
+      overflow: auto;
+    }
+    .panel h3 {
+      font-size: 13px;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bp-primary);
+    }
+    .block-item {
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #1f2937;
+      margin-bottom: 6px;
+      font-size: 12px;
+      cursor: grab;
+      background: #030712;
+    }
+    .block-item:hover {
+      border-color: var(--bp-primary);
+    }
+    #canvas {
+      min-height: 100%;
+      border-radius: 8px;
+      border: 1px dashed #374151;
+      padding: 16px;
+      background: #020617;
+    }
+    .canvas-placeholder {
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+      margin-top: 40px;
+    }
+    textarea {
+      width: 100%;
+      height: 220px;
+      background: #020617;
+      color: #0ff;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      padding: 8px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      resize: none;
+    }
+    footer {
+      padding: 6px 16px;
+      font-size: 11px;
+      color: #6b7280;
+      border-top: 1px solid #1f2937;
+      background: #020617;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="text-sm font-bold text-primary">Bizpilote Flex Builder</span>
+      <button class="btn" onclick="newPage('landing')">Landing</button>
+      <button class="btn" onclick="newPage('dashboard')">Dashboard</button>
+      <button class="btn" onclick="newPage('blog')">Blog</button>
+    </div>
+    <div class="toolbar-right">
+      <button class="btn" onclick="setTheme('dark')">🌙</button>
+      <button class="btn" onclick="setTheme('light')">☀️</button>
+      <button class="btn" onclick="setTheme('neon')">⚡</button>
+      <button class="btn" onclick="exportHTML()">Export HTML ⤓</button>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Palette -->
+    <div class="panel">
+      <h3>Sections</h3>
+      <div class="block-item" draggable="true" data-type="hero">Hero</div>
+      <div class="block-item" draggable="true" data-type="features">Features</div>
+      <div class="block-item" draggable="true" data-type="pricing">Pricing</div>
+      <div class="block-item" draggable="true" data-type="faq">FAQ</div>
+      <div class="block-item" draggable="true" data-type="testimonials">Testimonials</div>
+      <div class="block-item" draggable="true" data-type="cta">CTA</div>
+      <div class="block-item" draggable="true" data-type="footer">Footer</div>
+
+      <h3 style="margin-top:12px;">Blocks</h3>
+      <div class="block-item" draggable="true" data-type="card">Card</div>
+      <div class="block-item" draggable="true" data-type="button">Button</div>
+      <div class="block-item" draggable="true" data-type="section">Section</div>
+    </div>
+
+    <!-- Canvas -->
+    <div class="panel" id="canvas" ondragover="onDragOver(event)" ondrop="onDrop(event)">
+      <div class="canvas-placeholder">Glisse des sections ici pour construire ta page Bizpilote Flex.</div>
+    </div>
+
+    <!-- Code -->
+    <div class="panel">
+      <h3>Code HTML généré</h3>
+      <textarea id="codeOutput"></textarea>
+      <button class="btn mt-2" onclick="copyCode()">Copier</button>
+    </div>
+  </div>
+
+  <footer>
+    Bizpilote Flex Builder · Drag & Drop · Génération de pages · Export HTML
+  </footer>
+
+  <script>
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      updateCode();
+    }
+
+    function onDragOver(e) {
+      e.preventDefault();
+    }
+
+    function onDrop(e) {
+      e.preventDefault();
+      const type = e.dataTransfer.getData("type");
+      if (!type) return;
+      addBlock(type);
+    }
+
+    document.querySelectorAll(".block-item").forEach(el => {
+      el.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("type", el.dataset.type);
+      });
+    });
+
+    function addBlock(type) {
+      const canvas = document.getElementById("canvas");
+      const placeholder = canvas.querySelector(".canvas-placeholder");
+      if (placeholder) placeholder.remove();
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "mb-4";
+      wrapper.dataset.type = type;
+      wrapper.innerHTML = getBlockHTML(type);
+      canvas.appendChild(wrapper);
+
+      updateCode();
+    }
+
+    function getBlockHTML(type) {
+      if (type === "hero") {
+        return `
+<section class="hero bg-cover p-8">
+  <div class="hero-overlay"></div>
+  <div class="hero-content col a-center j-center text-center">
+    <h1 class="text-4xl font-bold mb-4">Titre Hero</h1>
+    <p class="text-lg mb-8">Section Hero générée par le Builder Bizpilote Flex.</p>
+    <button class="btn btn-primary">Call to action</button>
+  </div>
+</section>`;
+      }
+
+      if (type === "features") {
+        return `
+<section class="features grid grid-cols-3 gap-8 p-8">
+  <div class="card p-6 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature 1</h3>
+    <p class="text-sm">Texte de feature.</p>
+  </div>
+  <div class="card p-6 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature 2</h3>
+    <p class="text-sm">Texte de feature.</p>
+  </div>
+  <div class="card p-6 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature 3</h3>
+    <p class="text-sm">Texte de feature.</p>
+  </div>
+</section>`;
+      }
+
+      if (type === "pricing") {
+        return `
+<section class="pricing flex wrap gap-lg j-center p-8">
+  <div class="card w-third p-8 text-center">
+    <h3 class="text-2xl font-bold mb-4">Starter</h3>
+    <p class="text-lg mb-4">10€/mois</p>
+    <button class="btn btn-primary">Choisir</button>
+  </div>
+  <div class="card w-third p-8 text-center shadow-lg">
+    <h3 class="text-2xl font-bold mb-4">Pro</h3>
+    <p class="text-lg mb-4">29€/mois</p>
+    <button class="btn btn-primary">Choisir</button>
+  </div>
+</section>`;
+      }
+
+      if (type === "faq") {
+        return `
+<section class="p-8">
+  <h2 class="text-3xl font-bold mb-4">FAQ</h2>
+  <div class="card p-4 mb-2">
+    <h3 class="text-md font-bold">Question 1</h3>
+    <p class="text-sm">Réponse à la question.</p>
+  </div>
+  <div class="card p-4 mb-2">
+    <h3 class="text-md font-bold">Question 2</h3>
+    <p class="text-sm">Réponse à la question.</p>
+  </div>
+</section>`;
+      }
+
+      if (type === "testimonials") {
+        return `
+<section class="p-8">
+  <h2 class="text-3xl font-bold mb-4">Testimonials</h2>
+  <div class="flex gap-md">
+    <div class="card p-4">
+      <p class="text-sm">“Bizpilote Flex est incroyable.”</p>
+      <p class="text-xs text-gray mt-2">— Client satisfait</p>
+    </div>
+    <div class="card p-4">
+      <p class="text-sm">“Gain de temps énorme.”</p>
+      <p class="text-xs text-gray mt-2">— Développeur</p>
+    </div>
+  </div>
+</section>`;
+      }
+
+      if (type === "cta") {
+        return `
+<section class="p-8 text-center">
+  <h2 class="text-3xl font-bold mb-4">Prêt à utiliser Bizpilote Flex ?</h2>
+  <p class="text-md mb-4">Commence maintenant avec le framework Utility‑First 100% Flexbox.</p>
+  <button class="btn btn-primary">Commencer</button>
+</section>`;
+      }
+
+      if (type === "footer") {
+        return `
+<footer class="px-8 py-4 text-center text-sm text-gray">
+  Bizpilote Flex · © Bizpilote
+</footer>`;
+      }
+
+      if (type === "card") {
+        return `
+<div class="card p-6">
+  <h3 class="text-xl font-bold mb-2">Card</h3>
+  <p class="text-sm">Card générée par le Builder.</p>
+</div>`;
+      }
+
+      if (type === "button") {
+        return `
+<button class="btn btn-primary">Bouton Bizpilote Flex</button>`;
+      }
+
+      if (type === "section") {
+        return `
+<section class="p-8">
+  <h2 class="text-2xl font-bold mb-2">Section</h2>
+  <p class="text-sm">Section générée par le Builder.</p>
+</section>`;
+      }
+
+      return `<div>Bloc inconnu</div>`;
+    }
+
+    function updateCode() {
+      const canvas = document.getElementById("canvas");
+      const blocks = Array.from(canvas.children)
+        .filter(el => !el.classList.contains("canvas-placeholder"))
+        .map(el => el.innerHTML.trim())
+        .join("\n\n");
+
+      const html = `
+<!DOCTYPE html>
+<html lang="fr" data-theme="${document.documentElement.getAttribute('data-theme') || 'dark'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bizpilote-flex.min.css">
+</head>
+<body class="bg-dark text-light">
+${blocks || "<!-- Page vide -->"}
+</body>
+</html>`.trim();
+
+      document.getElementById("codeOutput").value = html;
+    }
+
+    function copyCode() {
+      const code = document.getElementById("codeOutput").value;
+      if (!code) return;
+      navigator.clipboard.writeText(code);
+    }
+
+    function exportHTML() {
+      const code = document.getElementById("codeOutput").value;
+      const blob = new Blob([code], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bizpilote-page.html";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function newPage(type) {
+      const canvas = document.getElementById("canvas");
+      canvas.innerHTML = "";
+      addBlock("hero");
+      if (type === "landing") {
+        addBlock("features");
+        addBlock("pricing");
+        addBlock("cta");
+        addBlock("footer");
+      }
+      if (type === "dashboard") {
+        addBlock("features");
+        addBlock("section");
+        addBlock("footer");
+      }
+      if (type === "blog") {
+        addBlock("section");
+        addBlock("faq");
+        addBlock("footer");
+      }
+      updateCode();
+    }
+
+    updateCode();
+  </script>
+
+</body>
+</html>

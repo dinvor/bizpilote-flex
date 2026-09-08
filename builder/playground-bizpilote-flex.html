@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Bizpilote Flex — Playground Ultime</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="src/bizpilote-flex.min.css">
+
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--bp-dark);
+      color: var(--bp-light);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .playground-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 16px;
+      flex: 1;
+    }
+    textarea {
+      width: 100%;
+      height: 100%;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid #1f2937;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      resize: none;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      background: #020617;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+    }
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 16px;
+      border-bottom: 1px solid #1f2937;
+      background: #020617;
+    }
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-small {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--bp-light);
+      background: rgba(255,255,255,0.05);
+      color: var(--bp-light);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .btn-small:hover {
+      background: var(--bp-primary);
+      color: var(--bp-dark);
+      transform: translateY(-1px);
+    }
+    .theme-btn {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--bp-light);
+      background: rgba(255,255,255,0.05);
+      color: var(--bp-light);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .theme-btn:hover {
+      background: var(--bp-primary);
+      color: var(--bp-dark);
+      transform: translateY(-1px);
+    }
+    .header-title {
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--bp-primary);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <span class="header-title">Bizpilote Flex Playground</span>
+
+      <!-- Snippets -->
+      <button class="btn-small" onclick="insertSnippet('hero')">Hero</button>
+      <button class="btn-small" onclick="insertSnippet('card')">Card</button>
+      <button class="btn-small" onclick="insertSnippet('pricing')">Pricing</button>
+      <button class="btn-small" onclick="insertSnippet('features')">Features</button>
+      <button class="btn-small" onclick="insertSnippet('gallery')">Gallery</button>
+    </div>
+
+    <div class="toolbar-right">
+      <!-- Theme Switch -->
+      <button class="theme-btn" onclick="setTheme('dark')">🌙</button>
+      <button class="theme-btn" onclick="setTheme('light')">☀️</button>
+      <button class="theme-btn" onclick="setTheme('neon')">⚡</button>
+      <button class="theme-btn" onclick="setTheme('warm')">🔥</button>
+      <button class="theme-btn" onclick="setTheme('custom')">💎</button>
+
+      <!-- Actions -->
+      <button class="btn-small" onclick="runPlayground()">Run ▶</button>
+      <button class="btn-small" onclick="resetPlayground()">Reset ⟳</button>
+      <button class="btn-small" onclick="exportHTML()">Export ⤓</button>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="playground-layout">
+    <div>
+      <h3 class="text-md font-semibold mb-2">HTML</h3>
+      <textarea id="editor"></textarea>
+
+      <h3 class="text-md font-semibold mt-4 mb-2">CSS Custom</h3>
+      <textarea id="cssEditor"></textarea>
+    </div>
+
+    <div>
+      <iframe id="preview"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function setTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      runPlayground();
+    }
+
+    function baseTemplate(content, css) {
+      return `
+<!DOCTYPE html>
+<html lang="fr" data-theme="${document.documentElement.getAttribute('data-theme') || 'dark'}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bizpilote-flex.min.css">
+  <style>${css}</style>
+</head>
+<body class="bg-dark text-light">
+${content}
+</body>
+</html>`;
+    }
+
+    function runPlayground() {
+      const code = document.getElementById('editor').value;
+      const css = document.getElementById('cssEditor').value;
+      const iframe = document.getElementById('preview');
+      const doc = iframe.contentDocument || iframe.contentWindow.document;
+      doc.open();
+      doc.write(baseTemplate(code, css));
+      doc.close();
+    }
+
+    function resetPlayground() {
+      document.getElementById('editor').value = `
+<section class="p-8">
+  <h1 class="text-3xl font-bold mb-4 text-primary">Bienvenue sur le Playground Bizpilote Flex</h1>
+  <p class="text-md leading-relaxed">
+    Écris ton HTML avec les classes Bizpilote Flex ici, puis clique sur "Run".
+  </p>
+</section>`;
+      document.getElementById('cssEditor').value = "";
+      runPlayground();
+    }
+
+    function exportHTML() {
+      const code = baseTemplate(
+        document.getElementById('editor').value,
+        document.getElementById('cssEditor').value
+      );
+
+      const blob = new Blob([code], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "bizpilote-playground-export.html";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+
+    function insertSnippet(type) {
+      const editor = document.getElementById('editor');
+      let snippet = '';
+
+      if (type === 'hero') {
+        snippet = `
+<section class="hero bg-cover" style="background-image:url('images/hero.jpg');">
+  <div class="hero-overlay"></div>
+  <div class="hero-content col a-center j-center text-center">
+    <h1 class="text-4xl font-bold tracking-wide mb-4">Bizpilote Flex</h1>
+    <p class="text-lg leading-relaxed mb-8">Hero généré depuis le Playground.</p>
+    <div class="flex gap-md j-center">
+      <button class="btn btn-primary text-dark font-semibold px-4 py-2">Action</button>
+      <button class="btn btn-ghost text-light font-semibold px-4 py-2">Secondaire</button>
+    </div>
+  </div>
+</section>`;
+      }
+
+      if (type === 'card') {
+        snippet = `
+<div class="card img-card-pro w-third">
+  <img src="images/product.jpg" class="img-card">
+  <h3 class="text-xl font-semibold mt-4">Card Bizpilote Flex</h3>
+  <p class="text-sm leading-normal mt-2">Card générée depuis le Playground.</p>
+  <button class="btn btn-primary mt-4">CTA</button>
+</div>`;
+      }
+
+      if (type === 'pricing') {
+        snippet = `
+<section class="pricing flex wrap gap-lg j-center p-8">
+  <div class="card w-third p-8 text-center">
+    <h3 class="text-2xl font-bold mb-4">Starter</h3>
+    <p class="text-lg mb-4">10€/mois</p>
+    <button class="btn btn-primary">Choisir</button>
+  </div>
+  <div class="card w-third p-8 text-center shadow-lg">
+    <h3 class="text-2xl font-bold mb-4">Pro</h3>
+    <p class="text-lg mb-4">29€/mois</p>
+    <button class="btn btn-primary">Choisir</button>
+  </div>
+</section>`;
+      }
+
+      if (type === 'features') {
+        snippet = `
+<section class="features grid grid-cols-3 gap-8 p-8">
+  <div class="card p-8 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature 1</h3>
+    <p class="text-sm">Texte de feature.</p>
+  </div>
+  <div class="card p-8 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature 2</h3>
+    <p class="text-sm">Texte de feature.</p>
+  </div>
+  <div class="card p-8 text-center">
+    <h3 class="text-xl font-bold mb-2">Feature 3</h3>
+    <p class="text-sm">Texte de feature.</p>
+  </div>
+</section>`;
+      }
+
+      if (type === 'gallery') {
+        snippet = `
+<section class="p-8">
+  <h2 class="text-3xl font-bold mb-4 text-center">Galerie</h2>
+  <div class="grid grid-cols-3 gap-4">
+    <img src="images/1.jpg" class="img-gallery img-zoom">
+    <img src="images/2.jpg" class="img-gallery img-zoom">
+    <img src="images/3.jpg" class="img-gallery img-zoom">
+  </div>
+</section>`;
+      }
+
+      editor.value += (editor.value ? "\n\n" : "") + snippet;
+      runPlayground();
+    }
+
+    resetPlayground();
+  </script>
+
+</body>
+</html>
