@@ -2,16 +2,27 @@
 <html lang="fr" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>Bizpilote Flex — Builder</title>
+  <title>Bizpilote Flex — Builder Ultra</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <!-- Adapte le chemin pour GitHub Pages si besoin -->
   <link rel="stylesheet" href="../src/bizpilote-flex.min.css">
-
   <style>
+    :root {
+      --bp-bg: #020617;
+      --bp-border: #1f2937;
+      --bp-border-soft: #374151;
+      --bp-text: #e5e7eb;
+      --bp-muted: #6b7280;
+      --bp-primary: #22c55e;
+      --bp-danger: #ef4444;
+      --bp-accent: #0ea5e9;
+    }
+    * { box-sizing: border-box; }
     body {
-      background: var(--bp-dark);
-      color: var(--bp-light);
-      font-family: system-ui, sans-serif;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      background: var(--bp-bg);
+      color: var(--bp-text);
       display: grid;
       grid-template-rows: auto 1fr auto;
       height: 100vh;
@@ -21,7 +32,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 16px;
-      border-bottom: 1px solid #1f2937;
+      border-bottom: 1px solid var(--bp-border);
       background: #020617;
     }
     .toolbar-left,
@@ -33,62 +44,170 @@
     .btn {
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid var(--bp-light);
-      background: rgba(255,255,255,0.05);
-      color: var(--bp-light);
+      border: 1px solid var(--bp-border-soft);
+      background: rgba(255,255,255,0.04);
+      color: var(--bp-text);
       font-size: 12px;
       cursor: pointer;
-      transition: all .2s ease;
+      transition: all .15s ease;
+      white-space: nowrap;
     }
     .btn:hover {
       background: var(--bp-primary);
-      color: var(--bp-dark);
+      color: #020617;
+      border-color: var(--bp-primary);
       transform: translateY(-1px);
+    }
+    .btn-icon {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid var(--bp-border-soft);
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-icon:hover {
+      background: var(--bp-accent);
+      color: #020617;
+      border-color: var(--bp-accent);
     }
     .layout {
       display: grid;
-      grid-template-columns: 260px 1fr 320px;
+      grid-template-columns: 260px minmax(0,1fr) 320px;
       gap: 8px;
       padding: 8px;
+      overflow: hidden;
     }
     .panel {
-      border: 1px solid #1f2937;
+      border: 1px solid var(--bp-border);
       border-radius: 8px;
       padding: 8px;
       background: #020617;
       overflow: auto;
     }
     .panel h3 {
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: var(--bp-primary);
+      color: var(--bp-accent);
+    }
+    .panel-subtitle {
+      font-size: 11px;
+      color: var(--bp-muted);
+      margin-bottom: 6px;
+    }
+    .block-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bp-muted);
+      margin: 10px 0 4px;
     }
     .block-item {
       padding: 6px 8px;
       border-radius: 6px;
-      border: 1px solid #1f2937;
+      border: 1px solid var(--bp-border);
       margin-bottom: 6px;
       font-size: 12px;
       cursor: grab;
       background: #030712;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .block-item span {
+      opacity: 0.7;
+      font-size: 11px;
     }
     .block-item:hover {
       border-color: var(--bp-primary);
+      background: #020617;
     }
     #canvas {
       min-height: 100%;
       border-radius: 8px;
-      border: 1px dashed #374151;
+      border: 1px dashed var(--bp-border-soft);
       padding: 16px;
       background: #020617;
+      position: relative;
+      overflow: auto;
     }
     .canvas-placeholder {
       font-size: 13px;
-      color: #6b7280;
+      color: var(--bp-muted);
       text-align: center;
       margin-top: 40px;
+    }
+    .bp-block {
+      border-radius: 6px;
+      border: 1px solid transparent;
+      margin-bottom: 10px;
+      position: relative;
+      cursor: default;
+    }
+    .bp-block:hover:not(.preview-mode .bp-block) {
+      border-color: rgba(148,163,184,0.5);
+    }
+    .bp-block.selected {
+      border-color: var(--bp-accent);
+      box-shadow: 0 0 0 1px rgba(14,165,233,0.6);
+    }
+    .bp-block-handle {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--bp-muted);
+      cursor: grab;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 5;
+    }
+    .bp-block-actions {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      display: flex;
+      gap: 4px;
+      z-index: 5;
+    }
+    .bp-chip {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--bp-muted);
+    }
+    .bp-block-dropzone {
+      height: 10px;
+      margin: 4px 0;
+      border-radius: 4px;
+      border: 1px dashed transparent;
+    }
+    .bp-block-dropzone.active {
+      border-color: var(--bp-accent);
+      background: rgba(14,165,233,0.08);
+    }
+    .bp-inner-dropzone {
+      height: 12px;
+      margin: 6px 0;
+      border-radius: 4px;
+      border: 1px dashed transparent;
+    }
+    .bp-inner-dropzone.active {
+      border-color: var(--bp-primary);
+      background: rgba(34,197,94,0.08);
     }
     textarea {
       width: 100%;
@@ -96,18 +215,71 @@
       background: #020617;
       color: #0ff;
       border-radius: 8px;
-      border: 1px solid #1f2937;
+      border: 1px solid var(--bp-border);
       padding: 8px;
       font-family: "JetBrains Mono", monospace;
-      font-size: 12px;
+      font-size: 11px;
       resize: none;
+    }
+    .field {
+      margin-bottom: 8px;
+    }
+    .field label {
+      display: block;
+      font-size: 11px;
+      color: var(--bp-muted);
+      margin-bottom: 2px;
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 4px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--bp-border-soft);
+      background: #020617;
+      color: var(--bp-text);
+      font-size: 11px;
+      font-family: inherit;
+    }
+    .field textarea {
+      min-height: 60px;
+      resize: vertical;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      outline: none;
+      border-color: var(--bp-accent);
+      box-shadow: 0 0 0 1px rgba(14,165,233,0.4);
+    }
+    .properties-empty {
+      font-size: 12px;
+      color: var(--bp-muted);
+      margin-top: 8px;
     }
     footer {
       padding: 6px 16px;
       font-size: 11px;
-      color: #6b7280;
-      border-top: 1px solid #1f2937;
+      color: var(--bp-muted);
+      border-top: 1px solid var(--bp-border);
       background: #020617;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .status {
+      font-size: 11px;
+      color: var(--bp-muted);
+    }
+    .status strong {
+      color: var(--bp-accent);
+    }
+    .preview-mode .bp-block-handle,
+    .preview-mode .bp-block-actions,
+    .preview-mode .bp-block-dropzone,
+    .preview-mode .bp-inner-dropzone {
+      display: none !important;
     }
   </style>
 </head>
@@ -117,15 +289,19 @@
   <!-- Toolbar -->
   <div class="toolbar">
     <div class="toolbar-left">
-      <span class="text-sm font-bold text-primary">Bizpilote Flex Builder</span>
+      <span class="text-sm font-bold text-primary">Bizpilote Flex Builder Ultra</span>
       <button class="btn" onclick="newPage('landing')">Landing</button>
       <button class="btn" onclick="newPage('dashboard')">Dashboard</button>
       <button class="btn" onclick="newPage('blog')">Blog</button>
+      <button class="btn" onclick="clearCanvas()">Reset</button>
     </div>
     <div class="toolbar-right">
-      <button class="btn" onclick="setTheme('dark')">🌙</button>
-      <button class="btn" onclick="setTheme('light')">☀️</button>
-      <button class="btn" onclick="setTheme('neon')">⚡</button>
+      <button class="btn-icon" onclick="setTheme('dark')" title="Dark">🌙</button>
+      <button class="btn-icon" onclick="setTheme('light')" title="Light">☀️</button>
+      <button class="btn-icon" onclick="setTheme('neon')" title="Neon">⚡</button>
+      <button class="btn" onclick="togglePreview()">Preview</button>
+      <button class="btn" onclick="undo()">↶ Undo</button>
+      <button class="btn" onclick="redo()">↷ Redo</button>
       <button class="btn" onclick="exportHTML()">Export HTML ⤓</button>
     </div>
   </div>
@@ -135,198 +311,714 @@
     <!-- Palette -->
     <div class="panel">
       <h3>Sections</h3>
-      <div class="block-item" draggable="true" data-type="hero">Hero</div>
-      <div class="block-item" draggable="true" data-type="features">Features</div>
-      <div class="block-item" draggable="true" data-type="pricing">Pricing</div>
-      <div class="block-item" draggable="true" data-type="faq">FAQ</div>
-      <div class="block-item" draggable="true" data-type="testimonials">Testimonials</div>
-      <div class="block-item" draggable="true" data-type="cta">CTA</div>
-      <div class="block-item" draggable="true" data-type="footer">Footer</div>
+      <div class="panel-subtitle">Glisse-dépose des sections complètes.</div>
 
-      <h3 style="margin-top:12px;">Blocks</h3>
-      <div class="block-item" draggable="true" data-type="card">Card</div>
-      <div class="block-item" draggable="true" data-type="button">Button</div>
-      <div class="block-item" draggable="true" data-type="section">Section</div>
+      <div class="block-item" draggable="true" data-type="header">
+        Header / Menu
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="hero">
+        Hero
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="features">
+        Features
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="pricing">
+        Pricing
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="faq">
+        FAQ
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="testimonials">
+        Testimonials
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="cta">
+        CTA
+        <span>Section</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="footer">
+        Footer
+        <span>Section</span>
+      </div>
+
+      <div class="block-group-title">Éléments</div>
+      <div class="panel-subtitle">Glisse des éléments dans les sections.</div>
+
+      <div class="block-item" draggable="true" data-type="text">
+        Texte
+        <span>Element</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="image">
+        Image
+        <span>Element</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="button">
+        Button
+        <span>Element</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="card">
+        Card
+        <span>Element</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="container">
+        Container
+        <span>Element</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="row">
+        Row
+        <span>Layout</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="col">
+        Col
+        <span>Layout</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="divider">
+        Divider
+        <span>Element</span>
+      </div>
+      <div class="block-item" draggable="true" data-type="spacer">
+        Spacer
+        <span>Element</span>
+      </div>
     </div>
 
     <!-- Canvas -->
-    <div class="panel" id="canvas" ondragover="onDragOver(event)" ondrop="onDrop(event)">
-      <div class="canvas-placeholder">Glisse des sections ici pour construire ta page Bizpilote Flex.</div>
+    <div class="panel" id="canvas">
+      <div class="canvas-placeholder">
+        Glisse des sections ou des éléments ici pour construire ta page Bizpilote Flex.<br>
+        Clique sur un bloc pour le modifier, le déplacer, le dupliquer ou le supprimer.<br>
+        Glisse aussi du texte, des images, des boutons à l’intérieur des sections.
+      </div>
     </div>
 
-    <!-- Code -->
+    <!-- Properties + Code -->
     <div class="panel">
-      <h3>Code HTML généré</h3>
+      <h3>Propriétés du bloc</h3>
+      <div id="propertiesPanel">
+        <div class="properties-empty">
+          Aucun bloc sélectionné.<br>
+          Clique sur un bloc dans le canvas pour voir et modifier ses propriétés.
+        </div>
+      </div>
+
+      <h3 style="margin-top:12px;">Code HTML généré</h3>
       <textarea id="codeOutput"></textarea>
-      <button class="btn mt-2" onclick="copyCode()">Copier</button>
+      <button class="btn" style="margin-top:6px;" onclick="copyCode()">Copier</button>
     </div>
   </div>
 
   <footer>
-    Bizpilote Flex Builder · Drag & Drop · Génération de pages · Export HTML
+    <span class="status">
+      Theme: <strong id="statusTheme">dark</strong> ·
+      Blocks: <strong id="statusBlocks">0</strong> ·
+      Mode: <strong id="statusMode">edit</strong>
+    </span>
+    <span class="status">
+      Bizpilote Flex Builder Ultra · Drag & Drop interne · Éléments imbriqués · Undo/Redo · Preview · Export HTML
+    </span>
   </footer>
 
   <script>
+    const canvas = document.getElementById("canvas");
+    const propertiesPanel = document.getElementById("propertiesPanel");
+    const codeOutput = document.getElementById("codeOutput");
+    const statusTheme = document.getElementById("statusTheme");
+    const statusBlocks = document.getElementById("statusBlocks");
+    const statusMode = document.getElementById("statusMode");
+
+    let selectedBlock = null;
+    let dragSourceBlock = null;
+    let dragSourceElement = null;
+    let history = [];
+    let historyIndex = -1;
+    let isInternalBlockDrag = false;
+    let isInternalElementDrag = false;
+    let previewMode = false;
+
     function setTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
+      statusTheme.textContent = theme;
       updateCode();
     }
 
-    function onDragOver(e) {
-      e.preventDefault();
+    function togglePreview() {
+      previewMode = !previewMode;
+      statusMode.textContent = previewMode ? "preview" : "edit";
+      if (previewMode) {
+        canvas.classList.add("preview-mode");
+      } else {
+        canvas.classList.remove("preview-mode");
+      }
     }
 
-    function onDrop(e) {
+    function onPaletteDragStart(e) {
+      const type = e.target.dataset.type;
+      if (!type) return;
+      e.dataTransfer.setData("type", type);
+      e.dataTransfer.effectAllowed = "copy";
+      isInternalBlockDrag = false;
+      isInternalElementDrag = false;
+    }
+
+    function onCanvasDragOver(e) {
+      e.preventDefault();
+      const dropzone = e.target.closest(".bp-block-dropzone, .bp-inner-dropzone");
+      if (dropzone) {
+        dropzone.classList.add("active");
+      }
+    }
+
+    function onCanvasDragLeave(e) {
+      const dropzone = e.target.closest(".bp-block-dropzone, .bp-inner-dropzone");
+      if (dropzone) {
+        dropzone.classList.remove("active");
+      }
+    }
+
+    function onCanvasDrop(e) {
       e.preventDefault();
       const type = e.dataTransfer.getData("type");
+      const dropzone = e.target.closest(".bp-block-dropzone, .bp-inner-dropzone");
+
+      if (isInternalBlockDrag && dragSourceBlock) {
+        if (dropzone && dropzone.classList.contains("bp-block-dropzone")) {
+          dropzone.classList.remove("active");
+          dropzone.parentNode.insertBefore(dragSourceBlock, dropzone.nextSibling);
+          saveState();
+          updateCode();
+          updateStatus();
+        }
+        dragSourceBlock = null;
+        isInternalBlockDrag = false;
+        return;
+      }
+
+      if (isInternalElementDrag && dragSourceElement) {
+        if (dropzone && dropzone.classList.contains("bp-inner-dropzone")) {
+          dropzone.classList.remove("active");
+          dropzone.parentNode.insertBefore(dragSourceElement, dropzone.nextSibling);
+          saveState();
+          updateCode();
+          updateStatus();
+        }
+        dragSourceElement = null;
+        isInternalElementDrag = false;
+        return;
+      }
+
       if (!type) return;
-      addBlock(type);
-    }
-
-    document.querySelectorAll(".block-item").forEach(el => {
-      el.addEventListener("dragstart", e => {
-        e.dataTransfer.setData("type", el.dataset.type);
-      });
-    });
-
-    function addBlock(type) {
-      const canvas = document.getElementById("canvas");
       const placeholder = canvas.querySelector(".canvas-placeholder");
       if (placeholder) placeholder.remove();
 
-      const wrapper = document.createElement("div");
-      wrapper.className = "mb-4";
-      wrapper.dataset.type = type;
-      wrapper.innerHTML = getBlockHTML(type);
-      canvas.appendChild(wrapper);
+      if (isElementType(type)) {
+        const element = createElement(type);
+        if (dropzone && dropzone.classList.contains("bp-inner-dropzone")) {
+          dropzone.classList.remove("active");
+          dropzone.parentNode.insertBefore(element, dropzone.nextSibling);
+        } else {
+          canvas.appendChild(element);
+        }
+        saveState();
+        updateCode();
+        updateStatus();
+        return;
+      }
 
+      const block = createBlock(type);
+      if (dropzone && dropzone.classList.contains("bp-block-dropzone")) {
+        dropzone.classList.remove("active");
+        dropzone.parentNode.insertBefore(block, dropzone.nextSibling);
+      } else {
+        canvas.appendChild(block);
+      }
+
+      saveState();
       updateCode();
+      updateStatus();
+    }
+
+    function isElementType(type) {
+      return ["text", "image", "button", "card", "container", "row", "col", "divider", "spacer"].includes(type);
+    }
+
+    function createBlock(type) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "bp-block";
+      wrapper.dataset.type = type;
+      wrapper.draggable = true;
+
+      const handle = document.createElement("div");
+      handle.className = "bp-block-handle";
+      handle.innerHTML = `<span>⋮⋮</span><span>${type}</span>`;
+      wrapper.appendChild(handle);
+
+      const actions = document.createElement("div");
+      actions.className = "bp-block-actions";
+      actions.innerHTML = `
+        <button class="btn-icon" title="Dupliquer" data-action="duplicate">⧉</button>
+        <button class="btn-icon" title="Supprimer" data-action="delete">✕</button>
+      `;
+      wrapper.appendChild(actions);
+
+      const dropzoneTop = document.createElement("div");
+      dropzoneTop.className = "bp-block-dropzone";
+      wrapper.appendChild(dropzoneTop);
+
+      const content = document.createElement("div");
+      content.className = "bp-block-content";
+      content.innerHTML = getBlockHTML(type);
+      wrapper.appendChild(content);
+
+      const dropzoneBottom = document.createElement("div");
+      dropzoneBottom.className = "bp-block-dropzone";
+      wrapper.appendChild(dropzoneBottom);
+
+      enableBlockInteractions(wrapper);
+      return wrapper;
+    }
+
+    function createElement(type) {
+      const el = document.createElement("div");
+      el.className = "bp-element";
+      el.draggable = true;
+      el.dataset.type = type;
+      el.innerHTML = getElementHTML(type);
+      enableElementInteractions(el);
+      return el;
+    }
+
+    function enableBlockInteractions(block) {
+      block.addEventListener("click", e => {
+        if (previewMode) return;
+        if (e.target.closest(".bp-block-actions")) return;
+        selectBlock(block);
+      });
+
+      block.addEventListener("dragstart", e => {
+        if (previewMode) {
+          e.preventDefault();
+          return;
+        }
+        if (!e.target.closest(".bp-block-handle")) {
+          e.preventDefault();
+          return;
+        }
+        dragSourceBlock = block;
+        isInternalBlockDrag = true;
+        e.dataTransfer.effectAllowed = "move";
+      });
+
+      block.addEventListener("dragend", () => {
+        dragSourceBlock = null;
+        isInternalBlockDrag = false;
+        canvas.querySelectorAll(".bp-block-dropzone, .bp-inner-dropzone").forEach(z => z.classList.remove("active"));
+      });
+
+      block.querySelectorAll("[contenteditable]").forEach(el => {
+        el.addEventListener("input", () => {
+          saveState();
+          updateCode();
+        });
+      });
+
+      const actions = block.querySelector(".bp-block-actions");
+      actions.addEventListener("click", e => {
+        const btn = e.target.closest("button");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        if (action === "delete") {
+          block.remove();
+          selectedBlock = null;
+          renderProperties(null);
+          saveState();
+          updateCode();
+          updateStatus();
+        }
+        if (action === "duplicate") {
+          const clone = block.cloneNode(true);
+          canvas.insertBefore(clone, block.nextSibling);
+          enableBlockInteractions(clone);
+          saveState();
+          updateCode();
+          updateStatus();
+        }
+      });
+
+      block.querySelectorAll(".bp-inner-dropzone").forEach(z => {
+        z.addEventListener("dragover", onCanvasDragOver);
+        z.addEventListener("dragleave", onCanvasDragLeave);
+        z.addEventListener("drop", onCanvasDrop);
+      });
+    }
+
+    function enableElementInteractions(el) {
+      el.addEventListener("click", e => {
+        if (previewMode) return;
+        selectBlock(el);
+      });
+
+      el.addEventListener("dragstart", e => {
+        if (previewMode) {
+          e.preventDefault();
+          return;
+        }
+        dragSourceElement = el;
+        isInternalElementDrag = true;
+        e.dataTransfer.effectAllowed = "move";
+      });
+
+      el.addEventListener("dragend", () => {
+        dragSourceElement = null;
+        isInternalElementDrag = false;
+        canvas.querySelectorAll(".bp-inner-dropzone").forEach(z => z.classList.remove("active"));
+      });
+
+      el.querySelectorAll("[contenteditable]").forEach(n => {
+        n.addEventListener("input", () => {
+          saveState();
+          updateCode();
+        });
+      });
     }
 
     function getBlockHTML(type) {
+      if (type === "header") {
+        return `
+<header class="p-4 bg-dark text-light flex j-between a-center">
+  <div class="flex a-center gap-sm">
+    <span class="text-lg font-bold" contenteditable="true">Bizpilote Flex</span>
+  </div>
+  <nav class="flex gap-md">
+    <a href="#" class="text-sm" contenteditable="true">Accueil</a>
+    <a href="#" class="text-sm" contenteditable="true">Features</a>
+    <a href="#" class="text-sm" contenteditable="true">Pricing</a>
+    <a href="#" class="text-sm" contenteditable="true">Contact</a>
+  </nav>
+</header>
+<div class="bp-inner-dropzone"></div>`;
+      }
+
       if (type === "hero") {
         return `
-<section class="hero bg-cover p-8">
-  <div class="hero-overlay"></div>
-  <div class="hero-content col a-center j-center text-center">
-    <h1 class="text-4xl font-bold mb-4">Titre Hero</h1>
-    <p class="text-lg mb-8">Section Hero générée par le Builder Bizpilote Flex.</p>
-    <button class="btn btn-primary">Call to action</button>
+<section class="p-8 bg-dark text-light">
+  <div class="col a-center j-center text-center gap-md">
+    <h1 class="text-4xl font-bold mb-4" contenteditable="true">Titre Hero</h1>
+    <p class="text-lg mb-6 max-w-xl mx-auto" contenteditable="true">
+      Section Hero générée par le Builder Bizpilote Flex. Clique pour modifier le texte.
+    </p>
+    <div class="flex j-center gap-sm">
+      <button class="btn btn-primary" contenteditable="true">Call to action</button>
+      <button class="btn" contenteditable="true">Secondary</button>
+    </div>
   </div>
+  <div class="bp-inner-dropzone"></div>
 </section>`;
       }
 
       if (type === "features") {
         return `
-<section class="features grid grid-cols-3 gap-8 p-8">
-  <div class="card p-6 text-center">
-    <h3 class="text-xl font-bold mb-2">Feature 1</h3>
-    <p class="text-sm">Texte de feature.</p>
+<section class="p-8 bg-dark text-light">
+  <h2 class="text-3xl font-bold mb-6 text-center" contenteditable="true">Features</h2>
+  <div class="grid grid-cols-3 gap-6">
+    <div class="card p-6 text-center">
+      <h3 class="text-xl font-bold mb-2" contenteditable="true">Feature 1</h3>
+      <p class="text-sm" contenteditable="true">Texte de feature.</p>
+    </div>
+    <div class="card p-6 text-center">
+      <h3 class="text-xl font-bold mb-2" contenteditable="true">Feature 2</h3>
+      <p class="text-sm" contenteditable="true">Texte de feature.</p>
+    </div>
+    <div class="card p-6 text-center">
+      <h3 class="text-xl font-bold mb-2" contenteditable="true">Feature 3</h3>
+      <p class="text-sm" contenteditable="true">Texte de feature.</p>
+    </div>
   </div>
-  <div class="card p-6 text-center">
-    <h3 class="text-xl font-bold mb-2">Feature 2</h3>
-    <p class="text-sm">Texte de feature.</p>
-  </div>
-  <div class="card p-6 text-center">
-    <h3 class="text-xl font-bold mb-2">Feature 3</h3>
-    <p class="text-sm">Texte de feature.</p>
-  </div>
+  <div class="bp-inner-dropzone"></div>
 </section>`;
       }
 
       if (type === "pricing") {
         return `
-<section class="pricing flex wrap gap-lg j-center p-8">
-  <div class="card w-third p-8 text-center">
-    <h3 class="text-2xl font-bold mb-4">Starter</h3>
-    <p class="text-lg mb-4">10€/mois</p>
-    <button class="btn btn-primary">Choisir</button>
+<section class="p-8 bg-dark text-light">
+  <h2 class="text-3xl font-bold mb-6 text-center" contenteditable="true">Pricing</h2>
+  <div class="flex wrap gap-lg j-center">
+    <div class="card w-third p-8 text-center">
+      <h3 class="text-2xl font-bold mb-4" contenteditable="true">Starter</h3>
+      <p class="text-lg mb-4" contenteditable="true">10€/mois</p>
+      <button class="btn btn-primary" contenteditable="true">Choisir</button>
+    </div>
+    <div class="card w-third p-8 text-center shadow-lg">
+      <h3 class="text-2xl font-bold mb-4" contenteditable="true">Pro</h3>
+      <p class="text-lg mb-4" contenteditable="true">29€/mois</p>
+      <button class="btn btn-primary" contenteditable="true">Choisir</button>
+    </div>
   </div>
-  <div class="card w-third p-8 text-center shadow-lg">
-    <h3 class="text-2xl font-bold mb-4">Pro</h3>
-    <p class="text-lg mb-4">29€/mois</p>
-    <button class="btn btn-primary">Choisir</button>
-  </div>
+  <div class="bp-inner-dropzone"></div>
 </section>`;
       }
 
       if (type === "faq") {
         return `
-<section class="p-8">
-  <h2 class="text-3xl font-bold mb-4">FAQ</h2>
+<section class="p-8 bg-dark text-light">
+  <h2 class="text-3xl font-bold mb-4" contenteditable="true">FAQ</h2>
   <div class="card p-4 mb-2">
-    <h3 class="text-md font-bold">Question 1</h3>
-    <p class="text-sm">Réponse à la question.</p>
+    <h3 class="text-md font-bold" contenteditable="true">Question 1</h3>
+    <p class="text-sm" contenteditable="true">Réponse à la question.</p>
   </div>
   <div class="card p-4 mb-2">
-    <h3 class="text-md font-bold">Question 2</h3>
-    <p class="text-sm">Réponse à la question.</p>
+    <h3 class="text-md font-bold" contenteditable="true">Question 2</h3>
+    <p class="text-sm" contenteditable="true">Réponse à la question.</p>
   </div>
+  <div class="bp-inner-dropzone"></div>
 </section>`;
       }
 
       if (type === "testimonials") {
         return `
-<section class="p-8">
-  <h2 class="text-3xl font-bold mb-4">Testimonials</h2>
+<section class="p-8 bg-dark text-light">
+  <h2 class="text-3xl font-bold mb-4" contenteditable="true">Testimonials</h2>
   <div class="flex gap-md">
     <div class="card p-4">
-      <p class="text-sm">“Bizpilote Flex est incroyable.”</p>
-      <p class="text-xs text-gray mt-2">— Client satisfait</p>
+      <p class="text-sm" contenteditable="true">“Bizpilote Flex est incroyable.”</p>
+      <p class="text-xs text-gray mt-2" contenteditable="true">— Client satisfait</p>
     </div>
     <div class="card p-4">
-      <p class="text-sm">“Gain de temps énorme.”</p>
-      <p class="text-xs text-gray mt-2">— Développeur</p>
+      <p class="text-sm" contenteditable="true">“Gain de temps énorme.”</p>
+      <p class="text-xs text-gray mt-2" contenteditable="true">— Développeur</p>
     </div>
   </div>
+  <div class="bp-inner-dropzone"></div>
 </section>`;
       }
 
       if (type === "cta") {
         return `
-<section class="p-8 text-center">
-  <h2 class="text-3xl font-bold mb-4">Prêt à utiliser Bizpilote Flex ?</h2>
-  <p class="text-md mb-4">Commence maintenant avec le framework Utility‑First 100% Flexbox.</p>
-  <button class="btn btn-primary">Commencer</button>
+<section class="p-8 bg-dark text-light text-center">
+  <h2 class="text-3xl font-bold mb-4" contenteditable="true">Prêt à utiliser Bizpilote Flex ?</h2>
+  <p class="text-md mb-4" contenteditable="true">
+    Commence maintenant avec le framework Utility‑First 100% Flexbox.
+  </p>
+  <button class="btn btn-primary" contenteditable="true">Commencer</button>
+  <div class="bp-inner-dropzone"></div>
 </section>`;
       }
 
       if (type === "footer") {
         return `
 <footer class="px-8 py-4 text-center text-sm text-gray">
-  Bizpilote Flex · © Bizpilote
+  <span contenteditable="true">Bizpilote Flex · © Bizpilote</span>
 </footer>`;
       }
 
+      return `<section class="p-8 bg-dark text-light"><h2 contenteditable="true">Section ${type}</h2><div class="bp-inner-dropzone"></div></section>`;
+    }
+
+    function getElementHTML(type) {
+      if (type === "text") {
+        return `<p class="text-sm" contenteditable="true">Texte Bizpilote Flex</p>`;
+      }
+      if (type === "image") {
+        return `<img src="images/hero.jpg" class="img-cover img-rounded-md" alt="Image" contenteditable="false">`;
+      }
+      if (type === "button") {
+        return `<button class="btn btn-primary" contenteditable="true">Bouton Bizpilote Flex</button>`;
+      }
       if (type === "card") {
         return `
-<div class="card p-6">
-  <h3 class="text-xl font-bold mb-2">Card</h3>
-  <p class="text-sm">Card générée par le Builder.</p>
+<div class="card p-6 bg-dark text-light">
+  <h3 class="text-xl font-bold mb-2" contenteditable="true">Card</h3>
+  <p class="text-sm" contenteditable="true">Card générée par le Builder.</p>
 </div>`;
       }
-
-      if (type === "button") {
+      if (type === "container") {
         return `
-<button class="btn btn-primary">Bouton Bizpilote Flex</button>`;
+<div class="p-4 bg-dark text-light">
+  <div class="bp-inner-dropzone"></div>
+</div>`;
+      }
+      if (type === "row") {
+        return `
+<div class="flex gap-md">
+  <div class="bp-inner-dropzone"></div>
+</div>`;
+      }
+      if (type === "col") {
+        return `
+<div class="col gap-sm">
+  <div class="bp-inner-dropzone"></div>
+</div>`;
+      }
+      if (type === "divider") {
+        return `<hr class="my-4 border-gray">`;
+      }
+      if (type === "spacer") {
+        return `<div class="my-8"></div>`;
+      }
+      return `<div contenteditable="true">Element ${type}</div>`;
+    }
+
+    function selectBlock(block) {
+      canvas.querySelectorAll(".bp-block, .bp-element").forEach(b => b.classList.remove("selected"));
+      block.classList.add("selected");
+      selectedBlock = block;
+      renderProperties(block);
+    }
+
+    function renderProperties(block) {
+      if (!block) {
+        propertiesPanel.innerHTML = `
+          <div class="properties-empty">
+            Aucun bloc sélectionné.<br>
+            Clique sur un bloc dans le canvas pour voir et modifier ses propriétés.
+          </div>`;
+        return;
       }
 
-      if (type === "section") {
-        return `
-<section class="p-8">
-  <h2 class="text-2xl font-bold mb-2">Section</h2>
-  <p class="text-sm">Section générée par le Builder.</p>
-</section>`;
-      }
+      const type = block.dataset.type || "custom";
+      const root = block.querySelector(".bp-block-content") || block;
+      const editableTexts = root.querySelectorAll("[contenteditable]");
+      const firstEditable = editableTexts[0] ? editableTexts[0].innerText : "";
+      const firstContainer = root.firstElementChild;
+      const classList = firstContainer ? firstContainer.className : "";
 
-      return `<div>Bloc inconnu</div>`;
+      let html = `
+        <div class="field">
+          <label>Type de bloc</label>
+          <div class="bp-chip">${type}</div>
+        </div>
+
+        <div class="field">
+          <label>Classes du conteneur principal</label>
+          <input type="text" value="${classList}" oninput="updateBlockClasses(this.value)">
+        </div>
+
+        <div class="field">
+          <label>Texte principal (premier élément éditable)</label>
+          <textarea oninput="updateFirstEditableText(this.value)">${firstEditable}</textarea>
+        </div>
+
+        <div class="field">
+          <label>Couleur principale</label>
+          <select onchange="updateBlockColor(this.value)">
+            <option value="">(inchangé)</option>
+            <option value="text-light">text-light</option>
+            <option value="text-primary">text-primary</option>
+            <option value="text-dark">text-dark</option>
+            <option value="bg-dark">bg-dark</option>
+            <option value="bg-primary">bg-primary</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Padding (classe)</label>
+          <input type="text" placeholder="p-8, p-4..." oninput="updateBlockPadding(this.value)">
+        </div>
+
+        <div class="field">
+          <label>Margin (classe)</label>
+          <input type="text" placeholder="mb-4, mt-8..." oninput="updateBlockMargin(this.value)">
+        </div>
+
+        <div class="field">
+          <label>Actions</label>
+          <div style="display:flex;gap:6px;">
+            <button class="btn" onclick="duplicateSelectedBlock()">Dupliquer</button>
+            <button class="btn" style="border-color:var(--bp-danger);color:var(--bp-danger);" onclick="deleteSelectedBlock()">Supprimer</button>
+          </div>
+        </div>
+      `;
+
+      propertiesPanel.innerHTML = html;
+    }
+
+    function updateBlockClasses(value) {
+      if (!selectedBlock) return;
+      const root = selectedBlock.querySelector(".bp-block-content")?.firstElementChild || selectedBlock.firstElementChild;
+      if (!root) return;
+      root.className = value;
+      saveState();
+      updateCode();
+    }
+
+    function updateFirstEditableText(value) {
+      if (!selectedBlock) return;
+      const root = selectedBlock.querySelector(".bp-block-content") || selectedBlock;
+      const editable = root.querySelector("[contenteditable]");
+      if (!editable) return;
+      editable.innerText = value;
+      saveState();
+      updateCode();
+    }
+
+    function updateBlockColor(value) {
+      if (!selectedBlock || !value) return;
+      const root = selectedBlock.querySelector(".bp-block-content")?.firstElementChild || selectedBlock.firstElementChild;
+      if (!root) return;
+      const classes = root.className.split(" ").filter(c => !c.startsWith("text-") && !c.startsWith("bg-"));
+      classes.push(value);
+      root.className = classes.join(" ");
+      saveState();
+      updateCode();
+    }
+
+    function updateBlockPadding(value) {
+      if (!selectedBlock) return;
+      const root = selectedBlock.querySelector(".bp-block-content")?.firstElementChild || selectedBlock.firstElementChild;
+      if (!root) return;
+      const classes = root.className.split(" ").filter(c => !c.startsWith("p-"));
+      if (value.trim()) classes.push(value.trim());
+      root.className = classes.join(" ");
+      saveState();
+      updateCode();
+    }
+
+    function updateBlockMargin(value) {
+      if (!selectedBlock) return;
+      const root = selectedBlock.querySelector(".bp-block-content")?.firstElementChild || selectedBlock.firstElementChild;
+      if (!root) return;
+      const classes = root.className.split(" ").filter(c => !c.startsWith("m-") && !c.startsWith("mt-") && !c.startsWith("mb-"));
+      if (value.trim()) classes.push(value.trim());
+      root.className = classes.join(" ");
+      saveState();
+      updateCode();
+    }
+
+    function duplicateSelectedBlock() {
+      if (!selectedBlock) return;
+      const clone = selectedBlock.cloneNode(true);
+      canvas.insertBefore(clone, selectedBlock.nextSibling);
+      if (clone.classList.contains("bp-block")) enableBlockInteractions(clone);
+      if (clone.classList.contains("bp-element")) enableElementInteractions(clone);
+      saveState();
+      updateCode();
+      updateStatus();
+    }
+
+    function deleteSelectedBlock() {
+      if (!selectedBlock) return;
+      selectedBlock.remove();
+      selectedBlock = null;
+      renderProperties(null);
+      saveState();
+      updateCode();
+      updateStatus();
     }
 
     function updateCode() {
-      const canvas = document.getElementById("canvas");
-      const blocks = Array.from(canvas.children)
-        .filter(el => !el.classList.contains("canvas-placeholder"))
-        .map(el => el.innerHTML.trim())
+      const blocks = Array.from(canvas.querySelectorAll(".bp-block, .bp-element"))
+        .map(el => {
+          if (el.classList.contains("bp-block")) {
+            const content = el.querySelector(".bp-block-content");
+            return content ? content.innerHTML.trim() : "";
+          } else {
+            return el.innerHTML.trim();
+          }
+        })
         .join("\n\n");
 
       const html = `
@@ -335,24 +1027,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bizpilote-flex.min.css">
+  <link rel="stylesheet" href="../src/bizpilote-flex.min.css">
 </head>
 <body class="bg-dark text-light">
 ${blocks || "<!-- Page vide -->"}
 </body>
 </html>`.trim();
 
-      document.getElementById("codeOutput").value = html;
+      codeOutput.value = html;
     }
 
     function copyCode() {
-      const code = document.getElementById("codeOutput").value;
+      const code = codeOutput.value;
       if (!code) return;
       navigator.clipboard.writeText(code);
     }
 
     function exportHTML() {
-      const code = document.getElementById("codeOutput").value;
+      const code = codeOutput.value;
       const blob = new Blob([code], { type: "text/html" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -362,30 +1054,100 @@ ${blocks || "<!-- Page vide -->"}
       URL.revokeObjectURL(url);
     }
 
-    function newPage(type) {
-      const canvas = document.getElementById("canvas");
-      canvas.innerHTML = "";
-      addBlock("hero");
-      if (type === "landing") {
-        addBlock("features");
-        addBlock("pricing");
-        addBlock("cta");
-        addBlock("footer");
-      }
-      if (type === "dashboard") {
-        addBlock("features");
-        addBlock("section");
-        addBlock("footer");
-      }
-      if (type === "blog") {
-        addBlock("section");
-        addBlock("faq");
-        addBlock("footer");
-      }
-      updateCode();
+    function saveState() {
+      const html = canvas.innerHTML;
+      history = history.slice(0, historyIndex + 1);
+      history.push(html);
+      historyIndex++;
     }
 
-    updateCode();
+    function undo() {
+      if (historyIndex > 0) {
+        historyIndex--;
+        canvas.innerHTML = history[historyIndex];
+        rebindAll();
+        updateCode();
+        updateStatus();
+        renderProperties(null);
+        selectedBlock = null;
+      }
+    }
+
+    function redo() {
+      if (historyIndex < history.length - 1) {
+        historyIndex++;
+        canvas.innerHTML = history[historyIndex];
+        rebindAll();
+        updateCode();
+        updateStatus();
+        renderProperties(null);
+        selectedBlock = null;
+      }
+    }
+
+    function rebindAll() {
+      canvas.querySelectorAll(".bp-block").forEach(enableBlockInteractions);
+      canvas.querySelectorAll(".bp-element").forEach(enableElementInteractions);
+    }
+
+    function updateStatus() {
+      const count = canvas.querySelectorAll(".bp-block, .bp-element").length;
+      statusBlocks.textContent = count;
+      if (count === 0 && !canvas.querySelector(".canvas-placeholder")) {
+        const placeholder = document.createElement("div");
+        placeholder.className = "canvas-placeholder";
+        placeholder.innerHTML = `
+          Glisse des sections ou des éléments ici pour construire ta page Bizpilote Flex.<br>
+          Clique sur un bloc pour le modifier, le déplacer, le dupliquer ou le supprimer.<br>
+          Glisse aussi du texte, des images, des boutons à l’intérieur des sections.
+        `;
+        canvas.appendChild(placeholder);
+      }
+    }
+
+    function clearCanvas() {
+      canvas.innerHTML = `
+        <div class="canvas-placeholder">
+          Glisse des sections ou des éléments ici pour construire ta page Bizpilote Flex.<br>
+          Clique sur un bloc pour le modifier, le déplacer, le dupliquer ou le supprimer.<br>
+          Glisse aussi du texte, des images, des boutons à l’intérieur des sections.
+        </div>`;
+      selectedBlock = null;
+      renderProperties(null);
+      saveState();
+      updateCode();
+      updateStatus();
+    }
+
+    function newPage(type) {
+      canvas.innerHTML = "";
+      const blocks = [];
+      if (type === "landing") {
+        blocks.push("header", "hero", "features", "pricing", "cta", "footer");
+      }
+      if (type === "dashboard") {
+        blocks.push("header", "hero", "features", "section", "footer");
+      }
+      if (type === "blog") {
+        blocks.push("header", "hero", "section", "faq", "footer");
+      }
+      blocks.forEach(t => canvas.appendChild(createBlock(t)));
+      saveState();
+      updateCode();
+      updateStatus();
+      renderProperties(null);
+      selectedBlock = null;
+    }
+
+    document.querySelectorAll(".block-item").forEach(el => {
+      el.addEventListener("dragstart", onPaletteDragStart);
+    });
+
+    canvas.addEventListener("dragover", onCanvasDragOver);
+    canvas.addEventListener("dragleave", onCanvasDragLeave);
+    canvas.addEventListener("drop", onCanvasDrop);
+
+    clearCanvas();
   </script>
 
 </body>

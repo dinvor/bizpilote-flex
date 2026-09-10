@@ -2,52 +2,39 @@
 <html lang="fr" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>Bizpilote Flex — Playground Ultime</title>
+  <title>Bizpilote Flex — Playground PRO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <!-- CSS Bizpilote Flex depuis GitHub Pages -->
   <link rel="stylesheet" href="../src/bizpilote-flex.min.css">
 
   <style>
+    :root {
+      --bp-bg: #020617;
+      --bp-border: #1f2937;
+      --bp-border-soft: #374151;
+      --bp-text: #e5e7eb;
+      --bp-muted: #6b7280;
+      --bp-primary: #22c55e;
+      --bp-danger: #ef4444;
+      --bp-accent: #0ea5e9;
+    }
+    * { box-sizing: border-box; }
     body {
       display: flex;
       flex-direction: column;
       height: 100vh;
-      background: var(--bp-dark);
-      color: var(--bp-light);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    .playground-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding: 16px;
-      flex: 1;
-    }
-    textarea {
-      width: 100%;
-      height: 100%;
-      background: #020617;
-      color: #e5e7eb;
-      border-radius: 8px;
-      padding: 12px;
-      border: 1px solid #1f2937;
-      font-family: "JetBrains Mono", monospace;
-      font-size: 13px;
-      resize: none;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      background: #020617;
-      border-radius: 8px;
-      border: 1px solid #1f2937;
+      background: var(--bp-bg);
+      color: var(--bp-text);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      margin: 0;
     }
     .toolbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 8px 16px;
-      border-bottom: 1px solid #1f2937;
+      border-bottom: 1px solid var(--bp-border);
       background: #020617;
     }
     .toolbar-left,
@@ -55,41 +42,147 @@
       display: flex;
       gap: 8px;
       align-items: center;
+      flex-wrap: wrap;
+    }
+    .header-title {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--bp-primary);
+      text-transform: uppercase;
+      font-size: 12px;
     }
     .btn-small {
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid var(--bp-light);
-      background: rgba(255,255,255,0.05);
-      color: var(--bp-light);
-      font-size: 12px;
+      border: 1px solid var(--bp-border-soft);
+      background: rgba(255,255,255,0.04);
+      color: var(--bp-text);
+      font-size: 11px;
       cursor: pointer;
-      transition: all .2s ease;
+      transition: all .15s ease;
+      white-space: nowrap;
     }
     .btn-small:hover {
       background: var(--bp-primary);
-      color: var(--bp-dark);
+      color: #020617;
+      border-color: var(--bp-primary);
       transform: translateY(-1px);
     }
     .theme-btn {
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid var(--bp-light);
-      background: rgba(255,255,255,0.05);
-      color: var(--bp-light);
-      font-size: 12px;
+      border: 1px solid var(--bp-border-soft);
+      background: rgba(255,255,255,0.04);
+      color: var(--bp-text);
+      font-size: 11px;
       cursor: pointer;
-      transition: all .2s ease;
+      transition: all .15s ease;
+      white-space: nowrap;
     }
     .theme-btn:hover {
-      background: var(--bp-primary);
-      color: var(--bp-dark);
+      background: var(--bp-accent);
+      color: #020617;
+      border-color: var(--bp-accent);
       transform: translateY(-1px);
     }
-    .header-title {
-      font-weight: 700;
-      letter-spacing: 0.05em;
+    .playground-layout {
+      display: grid;
+      grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr);
+      gap: 12px;
+      padding: 12px;
+      flex: 1;
+      min-height: 0;
+    }
+    .panel {
+      border-radius: 8px;
+      border: 1px solid var(--bp-border);
+      background: #020617;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .panel h3 {
+      font-size: 12px;
+      margin: 0 0 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--bp-accent);
+    }
+    .panel-subtitle {
+      font-size: 11px;
+      color: var(--bp-muted);
+      margin-bottom: 6px;
+    }
+    textarea {
+      width: 100%;
+      flex: 1;
+      background: #020617;
+      color: #e5e7eb;
+      border-radius: 6px;
+      padding: 8px;
+      border: 1px solid #1f2937;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      resize: none;
+      outline: none;
+    }
+    iframe {
+      width: 100%;
+      flex: 1;
+      background: #020617;
+      border-radius: 6px;
+      border: 1px solid #1f2937;
+    }
+    .editor-group {
+      display: grid;
+      grid-template-rows: auto minmax(0,1fr) auto minmax(0,0.7fr);
+      gap: 6px;
+      height: 100%;
+    }
+    .errors-panel {
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid rgba(239,68,68,0.4);
+      background: rgba(239,68,68,0.08);
+      padding: 6px;
+      font-size: 11px;
+      color: #fecaca;
+      max-height: 80px;
+      overflow: auto;
+    }
+    .errors-panel.hidden {
+      display: none;
+    }
+    .status-bar {
+      padding: 4px 12px;
+      border-top: 1px solid var(--bp-border);
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #020617;
+      color: var(--bp-muted);
+    }
+    .status-chip {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--bp-border-soft);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .status-chip-primary {
+      border-color: var(--bp-primary);
       color: var(--bp-primary);
+    }
+    .status-chip-accent {
+      border-color: var(--bp-accent);
+      color: var(--bp-accent);
+    }
+    .status-chip-muted {
+      border-color: var(--bp-border-soft);
+      color: var(--bp-muted);
     }
   </style>
 </head>
@@ -99,7 +192,7 @@
   <!-- Toolbar -->
   <div class="toolbar">
     <div class="toolbar-left">
-      <span class="header-title">Bizpilote Flex Playground</span>
+      <span class="header-title">Bizpilote Flex Playground PRO</span>
 
       <!-- Snippets -->
       <button class="btn-small" onclick="insertSnippet('hero')">Hero</button>
@@ -107,15 +200,16 @@
       <button class="btn-small" onclick="insertSnippet('pricing')">Pricing</button>
       <button class="btn-small" onclick="insertSnippet('features')">Features</button>
       <button class="btn-small" onclick="insertSnippet('gallery')">Gallery</button>
+      <button class="btn-small" onclick="insertSnippet('layout')">Layout</button>
     </div>
 
     <div class="toolbar-right">
       <!-- Theme Switch -->
-      <button class="theme-btn" onclick="setTheme('dark')">🌙</button>
-      <button class="theme-btn" onclick="setTheme('light')">☀️</button>
-      <button class="theme-btn" onclick="setTheme('neon')">⚡</button>
-      <button class="theme-btn" onclick="setTheme('warm')">🔥</button>
-      <button class="theme-btn" onclick="setTheme('custom')">💎</button>
+      <button class="theme-btn" onclick="setTheme('dark')">🌙 Dark</button>
+      <button class="theme-btn" onclick="setTheme('light')">☀️ Light</button>
+      <button class="theme-btn" onclick="setTheme('neon')">⚡ Neon</button>
+      <button class="theme-btn" onclick="setTheme('warm')">🔥 Warm</button>
+      <button class="theme-btn" onclick="setTheme('custom')">💎 Custom</button>
 
       <!-- Actions -->
       <button class="btn-small" onclick="runPlayground()">Run ▶</button>
@@ -126,67 +220,135 @@
 
   <!-- Layout -->
   <div class="playground-layout">
-    <div>
-      <h3 class="text-md font-semibold mb-2">HTML</h3>
-      <textarea id="editor"></textarea>
+    <!-- Left: Editors -->
+    <div class="panel">
+      <div class="editor-group">
+        <div>
+          <h3>HTML Bizpilote Flex</h3>
+          <div class="panel-subtitle">
+            Écris ton HTML avec les classes Bizpilote Flex. Preview live.
+          </div>
+        </div>
+        <textarea id="editor"></textarea>
 
-      <h3 class="text-md font-semibold mt-4 mb-2">CSS Custom</h3>
-      <textarea id="cssEditor"></textarea>
+        <div>
+          <h3>CSS Custom</h3>
+          <div class="panel-subtitle">
+            Ajoute du CSS spécifique à ta page (optionnel).
+          </div>
+        </div>
+        <textarea id="cssEditor"></textarea>
+      </div>
+
+      <div id="errorsPanel" class="errors-panel hidden"></div>
     </div>
 
-    <div>
+    <!-- Right: Preview -->
+    <div class="panel">
+      <h3>Preview Live</h3>
+      <div class="panel-subtitle">
+        Le rendu de ta page Bizpilote Flex, avec le thème actif.
+      </div>
       <iframe id="preview"></iframe>
     </div>
   </div>
 
+  <!-- Status bar -->
+  <div class="status-bar">
+    <div class="status-chip status-chip-primary">
+      Theme: <span id="statusTheme">dark</span>
+    </div>
+    <div class="status-chip status-chip-accent">
+      Autosave: <span id="statusAutosave">on</span>
+    </div>
+    <div class="status-chip status-chip-muted">
+      Snippets: Hero · Card · Pricing · Features · Gallery · Layout
+    </div>
+  </div>
+
   <script>
+    const STORAGE_KEY_HTML = "bizpilote_playground_html";
+    const STORAGE_KEY_CSS = "bizpilote_playground_css";
+    const STORAGE_KEY_THEME = "bizpilote_playground_theme";
+
     function setTheme(theme) {
       document.documentElement.setAttribute("data-theme", theme);
+      document.getElementById("statusTheme").textContent = theme;
+      try {
+        localStorage.setItem(STORAGE_KEY_THEME, theme);
+      } catch (e) {}
       runPlayground();
     }
 
     function baseTemplate(content, css) {
+      const theme = document.documentElement.getAttribute("data-theme") || "dark";
       return `
 <!DOCTYPE html>
-<html lang="fr" data-theme="${document.documentElement.getAttribute('data-theme') || 'dark'}">
+<html lang="fr" data-theme="${theme}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bizpilote-flex.min.css">
-  <style>${css}</style>
+  <link rel="stylesheet" href="../src/bizpilote-flex.min.css">
+  <style>
+    body[data-theme="dark"] { background:#020617;color:#e5e7eb; }
+    body[data-theme="light"] { background:#f9fafb;color:#020617; }
+    body[data-theme="neon"] { background:#020617;color:#22c55e; }
+    body[data-theme="warm"] { background:#111827;color:#f97316; }
+    ${css || ""}
+  </style>
 </head>
-<body class="bg-dark text-light">
-${content}
+<body class="bg-dark text-light" data-theme="${theme}">
+${content || "<section class='p-8'><h1 class='text-3xl font-bold mb-4 text-primary'>Page vide</h1><p class='text-sm'>Ajoute du contenu dans le Playground.</p></section>"}
 </body>
 </html>`;
     }
 
     function runPlayground() {
-      const code = document.getElementById('editor').value;
-      const css = document.getElementById('cssEditor').value;
-      const iframe = document.getElementById('preview');
+      const code = document.getElementById("editor").value;
+      const css = document.getElementById("cssEditor").value;
+      const iframe = document.getElementById("preview");
       const doc = iframe.contentDocument || iframe.contentWindow.document;
-      doc.open();
-      doc.write(baseTemplate(code, css));
-      doc.close();
+
+      const html = baseTemplate(code, css);
+      clearErrors();
+
+      try {
+        doc.open();
+        doc.write(html);
+        doc.close();
+      } catch (e) {
+        showError("Erreur lors du rendu de la preview : " + e.message);
+      }
+
+      try {
+        localStorage.setItem(STORAGE_KEY_HTML, code);
+        localStorage.setItem(STORAGE_KEY_CSS, css);
+        document.getElementById("statusAutosave").textContent = "on";
+      } catch (e) {
+        document.getElementById("statusAutosave").textContent = "off";
+      }
     }
 
     function resetPlayground() {
-      document.getElementById('editor').value = `
+      document.getElementById("editor").value = `
 <section class="p-8">
-  <h1 class="text-3xl font-bold mb-4 text-primary">Bienvenue sur le Playground Bizpilote Flex</h1>
-  <p class="text-md leading-relaxed">
-    Écris ton HTML avec les classes Bizpilote Flex ici, puis clique sur "Run".
+  <h1 class="text-3xl font-bold mb-4 text-primary">Bienvenue sur le Playground Bizpilote Flex PRO</h1>
+  <p class="text-md leading-relaxed mb-4">
+    Écris ton HTML avec les classes Bizpilote Flex ici, le rendu est affiché à droite en live.
+  </p>
+  <p class="text-sm text-gray">
+    Utilise les snippets Hero, Card, Pricing, Features, Gallery, Layout pour aller plus vite.
   </p>
 </section>`;
-      document.getElementById('cssEditor').value = "";
+      document.getElementById("cssEditor").value = "";
+      clearErrors();
       runPlayground();
     }
 
     function exportHTML() {
       const code = baseTemplate(
-        document.getElementById('editor').value,
-        document.getElementById('cssEditor').value
+        document.getElementById("editor").value,
+        document.getElementById("cssEditor").value
       );
 
       const blob = new Blob([code], { type: "text/html" });
@@ -201,35 +363,35 @@ ${content}
     }
 
     function insertSnippet(type) {
-      const editor = document.getElementById('editor');
-      let snippet = '';
+      const editor = document.getElementById("editor");
+      let snippet = "";
 
-      if (type === 'hero') {
+      if (type === "hero") {
         snippet = `
-<section class="hero bg-cover" style="background-image:url('images/hero.jpg');">
+<section class="hero bg-cover" style="background-image:url('https://dinvor.github.io/bizpilote-flex/images/hero.jpg');">
   <div class="hero-overlay"></div>
   <div class="hero-content col a-center j-center text-center">
     <h1 class="text-4xl font-bold tracking-wide mb-4">Bizpilote Flex</h1>
-    <p class="text-lg leading-relaxed mb-8">Hero généré depuis le Playground.</p>
+    <p class="text-lg leading-relaxed mb-8">Hero généré depuis le Playground PRO.</p>
     <div class="flex gap-md j-center">
-      <button class="btn btn-primary text-dark font-semibold px-4 py-2">Action</button>
-      <button class="btn btn-ghost text-light font-semibold px-4 py-2">Secondaire</button>
+      <button class="btn btn-primary text-dark font-semibold px-4 py-2">Action principale</button>
+      <button class="btn btn-ghost text-light font-semibold px-4 py-2">Action secondaire</button>
     </div>
   </div>
 </section>`;
       }
 
-      if (type === 'card') {
+      if (type === "card") {
         snippet = `
 <div class="card img-card-pro w-third">
-  <img src="images/product.jpg" class="img-card">
+  <img src="https://dinvor.github.io/bizpilote-flex/images/product.jpg" class="img-card">
   <h3 class="text-xl font-semibold mt-4">Card Bizpilote Flex</h3>
-  <p class="text-sm leading-normal mt-2">Card générée depuis le Playground.</p>
-  <button class="btn btn-primary mt-4">CTA</button>
+  <p class="text-sm leading-normal mt-2">Card générée depuis le Playground PRO.</p>
+  <button class="btn btn-primary mt-4">Call to action</button>
 </div>`;
       }
 
-      if (type === 'pricing') {
+      if (type === "pricing") {
         snippet = `
 <section class="pricing flex wrap gap-lg j-center p-8">
   <div class="card w-third p-8 text-center">
@@ -245,7 +407,7 @@ ${content}
 </section>`;
       }
 
-      if (type === 'features') {
+      if (type === "features") {
         snippet = `
 <section class="features grid grid-cols-3 gap-8 p-8">
   <div class="card p-8 text-center">
@@ -263,14 +425,30 @@ ${content}
 </section>`;
       }
 
-      if (type === 'gallery') {
+      if (type === "gallery") {
         snippet = `
 <section class="p-8">
   <h2 class="text-3xl font-bold mb-4 text-center">Galerie</h2>
   <div class="grid grid-cols-3 gap-4">
-    <img src="images/1.jpg" class="img-gallery img-zoom">
-    <img src="images/2.jpg" class="img-gallery img-zoom">
-    <img src="images/3.jpg" class="img-gallery img-zoom">
+    <img src="https://dinvor.github.io/bizpilote-flex/images/1.jpg" class="img-gallery img-zoom">
+    <img src="https://dinvor.github.io/bizpilote-flex/images/2.jpg" class="img-gallery img-zoom">
+    <img src="https://dinvor.github.io/bizpilote-flex/images/3.jpg" class="img-gallery img-zoom">
+  </div>
+</section>`;
+      }
+
+      if (type === "layout") {
+        snippet = `
+<section class="p-8">
+  <div class="grid grid-cols-2 gap-8">
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Colonne gauche</h2>
+      <p class="text-sm leading-relaxed">Utilise les classes col, row, flex, grid pour composer tes layouts.</p>
+    </div>
+    <div>
+      <h2 class="text-2xl font-bold mb-4">Colonne droite</h2>
+      <p class="text-sm leading-relaxed">Bizpilote Flex est 100% basé sur Flexbox et Grid.</p>
+    </div>
   </div>
 </section>`;
       }
@@ -279,7 +457,48 @@ ${content}
       runPlayground();
     }
 
-    resetPlayground();
+    function showError(message) {
+      const panel = document.getElementById("errorsPanel");
+      panel.classList.remove("hidden");
+      panel.textContent = message;
+    }
+
+    function clearErrors() {
+      const panel = document.getElementById("errorsPanel");
+      panel.classList.add("hidden");
+      panel.textContent = "";
+    }
+
+    function initPlayground() {
+      let html = "";
+      let css = "";
+      let theme = "dark";
+
+      try {
+        html = localStorage.getItem(STORAGE_KEY_HTML) || "";
+        css = localStorage.getItem(STORAGE_KEY_CSS) || "";
+        theme = localStorage.getItem(STORAGE_KEY_THEME) || "dark";
+      } catch (e) {}
+
+      if (!html) {
+        resetPlayground();
+      } else {
+        document.getElementById("editor").value = html;
+        document.getElementById("cssEditor").value = css;
+        document.documentElement.setAttribute("data-theme", theme);
+        document.getElementById("statusTheme").textContent = theme;
+        runPlayground();
+      }
+
+      document.getElementById("editor").addEventListener("input", () => {
+        runPlayground();
+      });
+      document.getElementById("cssEditor").addEventListener("input", () => {
+        runPlayground();
+      });
+    }
+
+    initPlayground();
   </script>
 
 </body>

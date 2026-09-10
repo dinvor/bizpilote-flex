@@ -2,22 +2,37 @@
 <html lang="fr" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>Bizpilote Flex — Générateur de composants</title>
+  <title>Bizpilote Flex — Générateur de composants PRO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="stylesheet" href="../src/bizpilote-flex.min.css">
+  <!-- CSS Bizpilote Flex depuis GitHub Pages -->
+  <link rel="stylesheet" href="../src/bizpilote-flex.css">
 
   <style>
+    :root {
+      --bp-bg: #020617;
+      --bp-border: #1f2937;
+      --bp-border-soft: #374151;
+      --bp-text: #e5e7eb;
+      --bp-muted: #6b7280;
+      --bp-primary: #22c55e;
+      --bp-danger: #ef4444;
+      --bp-accent: #0ea5e9;
+    }
+    * { box-sizing: border-box; }
     body {
-      background: var(--bp-dark);
-      color: var(--bp-light);
+      background: var(--bp-bg);
+      color: var(--bp-text);
       font-family: system-ui, sans-serif;
       padding: 24px;
       max-width: 1200px;
       margin: auto;
     }
+    h1 {
+      letter-spacing: .03em;
+    }
     .panel {
-      border: 1px solid var(--bp-gray);
+      border: 1px solid var(--bp-border);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 24px;
@@ -27,15 +42,15 @@
       display: block;
       font-size: 13px;
       margin-bottom: 4px;
-      color: var(--bp-light);
+      color: var(--bp-text);
     }
     select {
       width: 100%;
       padding: 6px 8px;
       border-radius: 8px;
-      border: 1px solid var(--bp-gray);
+      border: 1px solid var(--bp-border-soft);
       background: #020617;
-      color: var(--bp-light);
+      color: var(--bp-text);
       font-size: 13px;
       margin-bottom: 10px;
     }
@@ -48,7 +63,7 @@
       width: 100%;
       padding: 10px;
       border-radius: 8px;
-      border: 1px solid var(--bp-gray);
+      border: 1px solid var(--bp-border-soft);
       background: #020617;
       color: #0ff;
       font-family: "JetBrains Mono", monospace;
@@ -57,34 +72,40 @@
     .btn {
       padding: 8px 12px;
       border-radius: 999px;
-      border: 1px solid var(--bp-light);
+      border: 1px solid var(--bp-border-soft);
       background: rgba(255,255,255,0.05);
-      color: var(--bp-light);
+      color: var(--bp-text);
       font-size: 13px;
       cursor: pointer;
       transition: all .2s ease;
     }
     .btn:hover {
       background: var(--bp-primary);
-      color: var(--bp-dark);
+      color: #020617;
       transform: translateY(-1px);
     }
     pre {
       background: #020617;
       padding: 12px;
       border-radius: 8px;
-      border: 1px solid #1f2937;
+      border: 1px solid var(--bp-border-soft);
       color: #0ff;
       font-family: "JetBrains Mono", monospace;
       font-size: 13px;
       overflow-x: auto;
+    }
+    #previewTarget {
+      padding: 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--bp-border-soft);
     }
   </style>
 </head>
 
 <body>
 
-  <h1 class="text-3xl font-bold text-primary mb-4">Bizpilote Flex — Générateur de composants</h1>
+  <h1 class="text-3xl font-bold text-primary mb-4">Bizpilote Flex — Générateur de composants PRO</h1>
   <p class="text-md leading-relaxed mb-6">
     Sélectionne tes classes, choisis un type de composant, et Bizpilote Flex génère automatiquement le composant complet.
   </p>
@@ -234,8 +255,8 @@
 
       document.getElementById("previewTarget").innerHTML = `
 <div class="${classString}">
-  <h3>Preview Bizpilote Flex</h3>
-  <p>Ce bloc utilise les classes générées.</p>
+  <h3 class="text-xl font-bold mb-2">Preview Bizpilote Flex</h3>
+  <p class="text-sm leading-normal">Ce bloc utilise les classes générées.</p>
 </div>`;
     }
 
